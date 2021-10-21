@@ -22,7 +22,7 @@ async function main() {
   } = process.env;
 
   // express
-  const PORT = process.env.EXPRESS_PORT || 4040;
+  const PORT = process.env.EXPRESS_PORT || 5050;
   const server = makeServer();
   server.listen(PORT, () => global.console.log(chalk.cyan(`Server running ${PORT}`)));
   server.set('views', './views');

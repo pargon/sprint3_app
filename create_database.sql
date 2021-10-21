@@ -1,0 +1,8 @@
+CREATE DATABASE `MYAPP2`;
+USE `MYAPP2`;
+CREATE TABLE IF NOT EXISTS `users` (`id` INTEGER NOT NULL auto_increment , `userid` VARCHAR(60) UNIQUE, `nombre` VARCHAR(60), `apellido` VARCHAR(60), `mail` VARCHAR(60), `telefono` VARCHAR(20), `password` VARCHAR(60), `activo` TINYINT(1), `admin` TINYINT(1), PRIMARY KEY (`id`)) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS `products` (`id` INTEGER NOT NULL auto_increment , `descripcion` VARCHAR(100), `precio` DOUBLE PRECISION, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS `paymeths` (`id` INTEGER NOT NULL auto_increment , `descripcion` VARCHAR(100) UNIQUE, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS `orders` (`id` INTEGER NOT NULL auto_increment , `fecha` DATETIME, `estado` VARCHAR(40), `direccion_entrega` VARCHAR(100), `userUserid` VARCHAR(60), `paymethDescripcion` VARCHAR(100), PRIMARY KEY (`id`), FOREIGN KEY (`userUserid`) REFERENCES `users` (`userid`) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (`paymethDescripcion`) REFERENCES `paymeths` (`descripcion`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS `addresses` (`id` INTEGER NOT NULL auto_increment , `direccion` VARCHAR(100) UNIQUE, `userAddresses` INTEGER, PRIMARY KEY (`id`), FOREIGN KEY (`userAddresses`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;      
+CREATE TABLE IF NOT EXISTS `orderproducts` (`cantidad` INTEGER, `orderId` INTEGER , `productId` INTEGER , PRIMARY KEY (`orderId`, `productId`), FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (`productId`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE=InnoDB;

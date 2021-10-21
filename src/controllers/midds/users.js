@@ -47,7 +47,12 @@ async function login(req, res, next) {
 
     // coinciden pass encriptados
     if (password === req.body.password) {
+
+      // guarda en json el user
+      req.user = { userid: current.userid };
+
       next();
+
     } else {
       res
         .status(401)
@@ -76,6 +81,30 @@ async function chkAdmin(req, res, next) {
       res
         .status(401)
         .json({ message: 'Usuario no es Administrador' });
+    }
+  } else {
+    res
+      .status(404)
+      .json({ message: 'Usuario no encontrado' });
+  }
+}
+
+async function chkUserActive(req, res, next) {
+  const userquery = req.user.userid;
+  const User = db.getModel('UserModel');
+  // buscar por userid
+  const current = await User.findOne({
+    where: {
+      userid: userquery,
+    },
+  });
+  if (current) {
+    if (current.activo) {
+      next();
+    } else {
+      res
+        .status(412)
+        .json({ message: 'Usuario no está Activo' });
     }
   } else {
     res
@@ -134,4 +163,5 @@ module.exports = {
   login,
   chkAdmin,
   chkUserAddress,
+  chkUserActive,
 };

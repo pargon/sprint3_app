@@ -1,8 +1,7 @@
-/* eslint-disable max-len */
 const { Router } = require('express');
 const CryptoJS = require('crypto-js');
 const db = require('../../model');
-const { chkNewUser, login, chkAdmin } = require('../midds/users');
+const { chkNewUser, login, chkAdmin, chkUserActive } = require('../midds/users');
 const { newToken, chkToken } = require('../midds/token');
 
 function createRouter() {
@@ -59,15 +58,12 @@ function createRouter() {
         mail,
         telefono,
         password: passwordCryp,
+        activo: true,
         admin: isAdmin,
         addresses: direcciones,
       }, {
         include: [Address],
       });
-
-      // guardo la order
-      await newUser.save();
-
       // devuelvo ok el endpoint
       res.status(200).json(newUser);
 
@@ -76,6 +72,72 @@ function createRouter() {
       res.status(406).json(error);
     }
   });
+
+  /**
+ * @swagger
+ * /api/v1/users/unable:
+ *  post:
+ *    summary: Suspender usuario
+ *    description: Permite suspender una cuenta de usuario. Se puede ingresar usuario o mail y se toma el primer ingresado.
+ *    consumes:
+ *    - "application/json"
+ *    parameters:
+ *    - name: body
+ *      description: Cuerpo de una persona.
+ *      in: body
+ *      required: true
+ *      type: string
+ *      example: { mail: String, userid: String}
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      200:
+ *        description: Usuario Suspendido.
+ *      403:
+ *        description: Invalid Token
+ *      404:
+ *        description: Usuario no encontrado
+*/
+  router.post('/unable', chkToken, chkAdmin, chkUserActive, async (req, res) => {
+    const User = db.getModel('UserModel');
+    const { userid, mail } = req.body;
+
+    let users;
+
+    // ingresaron userid
+    if (userid) {
+      users = await User.findOne({
+        where: {
+          userid,
+        },
+      });
+    } else {
+      // ingresaron mail
+      users = await User.findOne({
+        where: {
+          mail,
+        },
+      });
+    }
+
+    // recupero algo
+    if (users) {
+
+      // cambia estado usuario
+      users.activo = false;
+
+      // guarda instancia
+      users.save();
+
+      res
+        .status(200)
+        .json({message: "Usuario Suspendido"});
+    } else {
+      res
+        .status(404);
+    }
+  });
+
   /**
    * @swagger
    * /api/v1/users/login:
@@ -101,7 +163,7 @@ function createRouter() {
    *      404:
    *        description: Usuario no encontrado
    */
-  router.post('/login', login, newToken, async (req, res) => {
+  router.post('/login', login, chkUserActive, newToken, async (req, res) => {
     if (req.token) {
       return res.status(200).json({ token: req.token });
     }
@@ -121,12 +183,10 @@ function createRouter() {
    *        description: Peticion exitosa
    *
    */
-  router.get('/addresses', chkToken, async (req, res) => {
+  router.get('/addresses', chkToken, chkUserActive, async (req, res) => {
     const User = db.getModel('UserModel');
     const Address = db.getModel('AddressModel');
     const { userid } = req.user;
-
-    console.log('entro');
 
     const users = await User.findOne({
       where: {
@@ -148,7 +208,7 @@ function createRouter() {
     }
   });
 
-  router.get('/', chkToken, chkAdmin, async (req, res) => {
+  router.get('/', chkToken, chkAdmin, chkUserActive, async (req, res) => {
     const User = db.getModel('UserModel');
     const Address = db.getModel('AddressModel');
     global.console.time('GET Users');

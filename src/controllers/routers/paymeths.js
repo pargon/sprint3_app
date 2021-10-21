@@ -2,7 +2,7 @@
 const { Router } = require('express');
 const db = require('../../model');
 const { chkToken } = require('../midds/token');
-const { chkAdmin } = require('../midds/users');
+const { chkAdmin, chkUserActive } = require('../midds/users');
 
 function createRouter() {
   const router = Router();
@@ -30,7 +30,7 @@ function createRouter() {
    *      409:
    *        description: Ya existe el Medio de Pago
    */
-  router.post('/', chkToken, chkAdmin, async (req, res) => {
+  router.post('/', chkToken, chkAdmin, chkUserActive, async (req, res) => {
     // get modelo
     const PayMeth = db.getModel('PayMethModel');
     const {
@@ -92,7 +92,7 @@ function createRouter() {
    *      409:
    *        description: Ya existe el Medio de Pago con esa Descripción
    */
-  router.put('/', chkToken, chkAdmin, async (req, res) => {
+  router.put('/', chkToken, chkAdmin, chkUserActive, async (req, res) => {
     // get modelo
     const PayMeth = db.getModel('PayMethModel');
     const {
@@ -166,7 +166,7 @@ function createRouter() {
    *      404:
    *        description: Medio de Pago no encontrado
    */
-  router.delete('/', chkToken, chkAdmin, async (req, res) => {
+  router.delete('/', chkToken, chkAdmin, chkUserActive, async (req, res) => {
     // get modelo
     const PayMeth = db.getModel('PayMethModel');
     const {
@@ -213,7 +213,7 @@ function createRouter() {
    *        description: Peticion exitosa
    *
    */
-  router.get('/', chkToken, chkAdmin, async (req, res) => {
+  router.get('/', chkToken, chkAdmin, chkUserActive, async (req, res) => {
     const PayMeth = db.getModel('PayMethModel');
     const paymeths = await PayMeth.findAll({});
     res

@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const db = require('../../model');
 const { chkToken } = require('../midds/token');
-const { chkAdmin, chkUserAddress } = require('../midds/users');
+const { chkAdmin, chkUserActive, chkUserAddress } = require('../midds/users');
 const { chkUpdateOrder } = require('../midds/orders');
 const chalk = require('chalk');
 
@@ -32,7 +32,7 @@ function createRouter() {
    *      403:
    *        description: Dirección no encontrada
    */
-  router.post('/', chkToken, chkUserAddress, async (req, res) => {
+  router.post('/', chkToken, chkUserActive, chkUserAddress, async (req, res) => {
     // get modelo
     const Product = db.getModel('ProductModel');
     const Order = db.getModel('OrderModel');
@@ -124,7 +124,7 @@ function createRouter() {
    *      406:
    *        description: El Pedido debe estar Pendiente
    */
-  router.put('/', chkToken, chkUpdateOrder, async (req, res) => {
+  router.put('/', chkToken, chkUserActive, chkUpdateOrder, async (req, res) => {
     // get modelo
     const Product = db.getModel('ProductModel');
     const Order = db.getModel('OrderModel');
@@ -197,7 +197,7 @@ function createRouter() {
    *        description: Pedido no encontrado
    *
    */
-  router.get('/all', chkToken, chkAdmin, async (req, res) => {
+  router.get('/all', chkToken, chkAdmin, chkUserActive, async (req, res) => {
     const Order = db.getModel('OrderModel');
     const User = db.getModel('UserModel');
     const Product = db.getModel('ProductModel');

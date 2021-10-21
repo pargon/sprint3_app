@@ -1,4 +1,3 @@
-/* global describe it before */
 const sinon = require('sinon');
 const request = require('supertest');
 const database = require('../src/model');
@@ -29,8 +28,16 @@ describe('Api test users', () => {
         nombre: 'nombrefalso1',
       }),
     };
+    
     // saltamos getModel
-    sinon.stub(database, 'getModel').returns(ModeloFalso);
+    //sinon.stub(database, 'getModel').returns(ModeloFalso);
+    sinon.stub(database, 'getModel').callsFake((modelName) => {
+      if (modelName === 'UserModel') {
+        return ModeloFalso;
+      }
+      return null;
+    });
+
     // saltamos validación de token
     sinon.stub(token, 'chkToken').callsFake((req, res, next) => { next(); });
     // saltamos validación de admin

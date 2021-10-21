@@ -26,6 +26,10 @@ function createModel(sequelize) {
       type: DataTypes.STRING(60),
       allowNull: true,
     },
+    activo: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
     admin: {
       type: DataTypes.BOOLEAN,
       allowNull: true,

@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const db = require('../../model');
 const { chkToken } = require('../midds/token');
-const { chkAdmin } = require('../midds/users');
+const { chkAdmin, chkUserActive } = require('../midds/users');
 const { cache, storeObjectInCache, invalidateCache } = require('../midds/cache');
 
 function createRouter() {
@@ -30,7 +30,7 @@ function createRouter() {
    *      409:
    *        description: Ya existe el producto
    */
-  router.post('/', chkToken, chkAdmin, async (req, res) => {
+  router.post('/', chkToken, chkAdmin, chkUserActive, async (req, res) => {
     // get modelo
     const Product = db.getModel('ProductModel');
     const {
@@ -100,7 +100,7 @@ function createRouter() {
    *      409:
    *        description: Producto ya existente con esa Descripción
    */
-  router.put('/', chkToken, chkAdmin, async (req, res) => {
+  router.put('/', chkToken, chkAdmin, chkUserActive, async (req, res) => {
     // get modelo
     const Product = db.getModel('ProductModel');
     const {
@@ -182,7 +182,7 @@ function createRouter() {
    *      404:
    *        description: Producto no encontrado
    */
-  router.delete('/', chkToken, chkAdmin, async (req, res) => {
+  router.delete('/', chkToken, chkAdmin, chkUserActive, async (req, res) => {
     // get modelo
     const Product = db.getModel('ProductModel');
     const {
@@ -234,7 +234,7 @@ function createRouter() {
    *        description: Peticion exitosa
    *
    */
-  router.get('/', chkToken, chkAdmin, cache, async (req, res) => {
+  router.get('/', chkToken, chkAdmin, chkUserActive, cache, async (req, res) => {
     // modelo de datos
     const Product = db.getModel('ProductModel');
     // recupera en DB
