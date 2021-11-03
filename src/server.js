@@ -17,7 +17,7 @@ function makeServer() {
   server.use('/api/v1/orders', createOrderRouter());
   server.get('/', (req, res) => res.render('index', {
     title: 'App Resto',
-    message: 'Debe ingresar a las rutas correctas. Docs: /api-docs',
+    message: 'Debe ingresar a las rutas correctas. Docs: /api/docs',
   }));
 
   return server;

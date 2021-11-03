@@ -48,7 +48,7 @@ async function main() {
     apis: [controllersFolder],
   };
   const swaggerDocs = swaggerJsDoc(swaggerOptions);
-  server.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+  server.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
   // helmet
   server.use(helmet());
