@@ -1,7 +1,7 @@
 
 # Delilah Restó API 3.0.0
 
-Este proyecto consiste en presentar en la nube de *Amazon* una api que permite gestionar ordenes a los usuarios. Además, permite al administrador mantener los maestros. 
+Este proyecto consiste en presentar en la nube de **Amazon AWS** una api que permite gestionar ordenes a los usuarios. Además, permite al administrador mantener los maestros. 
 
 
 ## Requerimientos
