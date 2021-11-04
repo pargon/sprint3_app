@@ -9,4 +9,4 @@ upload_project_to_s3:
     - aws configure set region sa-east-1
  
     # Usando AWS CLI, sube el contenido de la carpeta “code” a tu bucket
-    - aws s3 cp $CI_PROJECT_DIR/front/ s3://s3gonzalo --recursive
+    - aws s3 cp $CI_PROJECT_DIR/front/ s3://s3gonzalo/app3 --recursive
