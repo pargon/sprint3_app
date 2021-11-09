@@ -9,7 +9,7 @@ function createRouter() {
 
   /**
    * @swagger
-   * /api/v1/paymeths:
+   * /v1/paymeths:
    *  post:
    *    summary: Crear medio de pago
    *    description: Permite crear un medio de pago (sólo usuario Admin).
@@ -69,7 +69,7 @@ function createRouter() {
   });
   /**
    * @swagger
-   * /api/v1/paymeths:
+   * /v1/paymeths:
    *  put:
    *    summary: Actualiza pedido
    *    description: Permite editar un medio de pago (sólo usuario Admin).
@@ -145,7 +145,7 @@ function createRouter() {
   });
   /**
    * @swagger
-   * /api/v1/paymeths:
+   * /v1/paymeths:
    *  delete:
    *    summary: Elimina medio de pago
    *    description: Permite eliminar un medio de pago (sólo usuario Admin).
@@ -202,7 +202,7 @@ function createRouter() {
   });
   /**
    * @swagger
-   * /api/v1/paymeths:
+   * /v1/paymeths:
    *  get:
    *    summary: Lista medios de pago
    *    description: Obtener un listado con todos los medios de pago (sólo usuario Admin puede invocar).

@@ -11,7 +11,7 @@ function createRouter() {
 
   /**
    * @swagger
-   * /api/v1/orders:
+   * /v1/orders:
    *  post:
    *    summary: Nuevo Pedido
    *    description: Permite crear un pedido a un usuario.
@@ -97,7 +97,7 @@ function createRouter() {
   });
   /**
    * @swagger
-   * /api/v1/orders:
+   * /v1/orders:
    *  put:
    *    summary: Actualiza Pedido
    *    description: Permite editar detalle de un pedido a un usuario.
@@ -178,7 +178,7 @@ function createRouter() {
   });
   /**
    * @swagger
-   * /api/v1/orders/all:
+   * /v1/orders/all:
    *  get:
    *    summary: Todos los pedidos
    *    description: Obtener un listado con todos los pedidos (sólo usuario Admin puede invocar).

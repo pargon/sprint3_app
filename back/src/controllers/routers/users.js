@@ -9,7 +9,7 @@ function createRouter() {
 
   /**
  * @swagger
- * /api/v1/users:
+ * /v1/users:
  *  post:
  *    summary: Crear usuario
  *    description: Permite crear una cuenta de usuario.
@@ -75,7 +75,7 @@ function createRouter() {
 
   /**
  * @swagger
- * /api/v1/users/unable:
+ * /v1/users/unable:
  *  post:
  *    summary: Suspender usuario
  *    description: Permite suspender una cuenta de usuario. Se puede ingresar usuario o mail y se toma el primer ingresado.
@@ -140,7 +140,7 @@ function createRouter() {
 
   /**
    * @swagger
-   * /api/v1/users/login:
+   * /v1/users/login:
    *  post:
    *    summary: Login del usuario
    *    description: Permite iniciar sesión al usuario.
@@ -172,7 +172,7 @@ function createRouter() {
 
   /**
    * @swagger
-   * /api/v1/users/addresses:
+   * /v1/users/addresses:
    *  get:
    *    summary: Direcciones del usuario
    *    description: Obtener un listado de todas las direcciones del usuario logueado

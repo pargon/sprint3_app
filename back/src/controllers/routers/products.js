@@ -9,7 +9,7 @@ function createRouter() {
 
   /**
    * @swagger
-   * /api/v1/products:
+   * /v1/products:
    *  post:
    *    summary: Crear producto
    *    description: Permite crear un producto (sólo usuario Admin).
@@ -77,7 +77,7 @@ function createRouter() {
   });
   /**
    * @swagger
-   * /api/v1/products:
+   * /v1/products:
    *  put:
    *    summary: Actualizar producto
    *    description: Permite editar un producto (sólo usuario Admin).
@@ -161,7 +161,7 @@ function createRouter() {
   });
   /**
    * @swagger
-   * /api/v1/products:
+   * /v1/products:
    *  delete:
    *    summary: Elimina producto
    *    description: Permite eliminar un producto (sólo usuario Admin).
@@ -223,7 +223,7 @@ function createRouter() {
   });
   /**
    * @swagger
-   * /api/v1/products:
+   * /v1/products:
    *  get:
    *    summary: Lista todos los productos
    *    description: Obtener un listado de todos los productos (sólo usuario Admin puede invocar).
