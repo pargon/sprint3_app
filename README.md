@@ -1,67 +1,58 @@
-
 # Delilah Restó API 3.0.0
 
 Este proyecto consiste en presentar en la nube de **Amazon AWS** una api que permite gestionar ordenes a los usuarios. Además, permite al administrador mantener los maestros. 
 
 
-## Requerimientos
+## Conectar al servidor
+* Ingresar a la url https://aws.amazon.com/ y presionar Sign IN
+* Seleccionar IAM User
+* Ingresar Account Id: `archivo_account_id`
+* Ingresar usuario: `archivo_user`
+* Ingresar password: `archivo_password`
 
-- Servidor MySQL
-- Servidor Redis
-- Node
-## Pasos
 
-- Abrir zip y descomprimir archivo
-- Ejecutar script `create_database.sql` en servidor MySql
-- Instalar paquetes en Node (sección Instalación de paquetes)
-- Cambiar variables de entorno (sección Variables de Entorno)
-- Para probar el test (sección Correr Tests)
-- Para iniciar la api (sección Correr Api)
-- Para probar la api acceder a la documentación en Api-Docs](http://localhost:5050/api-docs/#/)
+## Iniciar Instancias
+* En el buscador de la barra superior ingresar EC2, seleccionarlo
+* Acceder al menú Auto Scaling Groups en la sección derecha
+* Hacer click sobre el grupo creado con nombre `ASGapp3`
+* Presionar el botón edit en el primer cuadro
+* Ingresar los siguientes valores:
+	* Desired capacity: 2
+	* Minimum capacity: 1
+	* Maximum capacity: 3
+* Presionar botón Update
 
-## Instalación de paquetes
 
-Ejecutar siguiente comando para iniciar
+## Chequear Instancias
+* En el buscador de la barra superior ingresar EC2, seleccionarlo
+* Acceder al menú Instances
+* Verificar que al menos una instancian pase a estado Running
 
-```bash
-  npm install 
-```
-    
-## Variables de Entorno
 
-Para ejecutar el proyecto hay que actualizar las variables en el archivo `.env`
+## Ingresar sitios
+* Url dominio propio: https://www.gonzaloparra.tk o https://gonzaloparra.tk
+* Url servicios api: https://api.gonzaloparra.tk
+* Repositorio Git del proyecto actualizado: https://gitlab.com/pargon1/acamica-sprint-3
 
-`MYSQL_DATABASE` nombre de la base en MySql
 
-`MYSQL_HOST` servidor MySql
+## Probar API 
+* Ingresando a postman o similar
+* Acceder a cada punto según documentación en https://api.gonzaloparra.tk/docs/
 
-`MYSQL_PORT` puerto del servidor MySql
 
-`MYSQL_USER` usuario que conecta con permisos de insert/update/delete a la base de MySql
+## Agregar rule para Acceder por SSH desde Mi PC
+* En el buscador de la barra superior ingresar EC2, seleccionarlo
+* Acceder al menú Security Groups
+* Buscar en la lista y hacer click sobre `SGinstanciasApp3`
+* Presionar botón Edit inbound rules
+* Presionar botón Add rule
+* Seleccionar Type SSH
+* Seleccionar Source My IP y luego presionar Save Rules
 
-`MYSQL_PASS` contraseña del usuario
 
-`EXPRESS_PORT` puerto del servidor express a publicar (por defecto 5050)
-
-`JWT_PASS` key para armar validación por JWT (cualquier valor sirve)
-
-`CRYPTO_KEY` key para encriptar password (cualquier valor sirve)
-
-`REDIS_HOST` servidor Redis 
-
-`REDIS_PORT` puerto del servidor Redis
-  
-## Correr Tests
-
-Ejecutar siguiente comando
-
-```bash
-  npm run test
-```
-## Correr Api
-
-Ejecutar siguiente comando 
-
-```bash
-  npm run dev
-```
+## Acceder por SSH a Instancias
+* En el buscador de la barra superior ingresar EC2, seleccionarlo
+* Acceder al menú Instances
+* Hacer click en una instancia con estado Running
+* Presionar el botón Connect, en la solapa SSH muestra el instructivo para continuar
+* El archivo PEM va adjunto con la entrega
