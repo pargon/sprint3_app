@@ -42,6 +42,8 @@ for (let i = 0; i < buttons.length; i++) {
 
 function login_provider_event(event) {
   event.preventDefault();
+  console.log('hoooooooooooooooola');
+  
   const provider = this.getAttribute("data-provider");
   window.location.href = `${base_url}/${provider}/auth`;
 }

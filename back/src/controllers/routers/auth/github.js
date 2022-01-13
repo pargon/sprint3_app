@@ -7,6 +7,7 @@ const strategy_scope = ['user:email', 'read:user'];
 
 router.get('/github/auth', passport.authenticate(strategy_name, { session:false, scope: strategy_scope}));
 
+
 router.get('/github/connect', function (req, res, next) {
   /* Connects the current user account with Google. */
 
