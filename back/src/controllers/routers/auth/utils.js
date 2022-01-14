@@ -16,7 +16,7 @@ function passport_connect(strategy_name, strategy_scope, req, res, next) {
 function passport_callback(strategy_name, provider_user_id, provider_email, user_id) {
   console.log(strategy_name, provider_user_id, provider_email, user_id)
   if (user_id){
-    console.log(`Connect the linkedin account to the user ${user_id}`);
+    console.log(`Connect the ${strategy_name} account to the user ${user_id}`);
     // TODO: create the relation between user and provider for user_id and provider(linkedin_data)
   }else{
     console.log(`This is a login event. Check in the database if exists some user with this linkedin account.

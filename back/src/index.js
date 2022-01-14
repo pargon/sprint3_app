@@ -55,7 +55,7 @@ async function main() {
 
   // database
   await connect(MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DATABASE);
-  //initialize();
+  // initialize();
 
   // redis
   redisConn(REDIS_HOST, REDIS_PORT);

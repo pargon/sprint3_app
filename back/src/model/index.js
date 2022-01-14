@@ -3,9 +3,10 @@ const { DataTypes } = require('sequelize');
 const chalk = require('chalk');
 const { createModel: createProductModel } = require('./models/product');
 const { createModel: createUserModel } = require('./models/user');
+const { createModel: createProviderModel } = require('./models/provider');
 const { createModel: createPayMethModel } = require('./models/paymeth');
 const { createModel: createOrderModel } = require('./models/order');
-const { createModel: createAddressModel} = require('./models/address');
+const { createModel: createAddressModel } = require('./models/address');
 const redis = require('redis');
 
 const models = {};
@@ -23,6 +24,7 @@ async function connect(host, port, username, password, database) {
 
   // guarda modelos
   models.UserModel = createUserModel(conn);
+  models.ProviderModel = createProviderModel(conn);
   models.ProductModel = createProductModel(conn);
   models.PayMethModel = createPayMethModel(conn);
   models.OrderModel = createOrderModel(conn);
@@ -33,12 +35,45 @@ async function connect(host, port, username, password, database) {
   models.OrderModel.belongsTo(models.PayMethModel, { targetKey: 'descripcion', foreignKey: 'paymethDescripcion' });
   models.UserModel.hasMany(models.AddressModel, { targetKey: 'descripcion', foreignKey: 'userAddresses' });
 
-  const OrderProduct = conn.define('orderproduct', {
-    cantidad: DataTypes.INTEGER,
+  const UserProvider = conn.define('userproviders', {
+    externaluserid: {
+      type: DataTypes.STRING(100),
+      allowNull: true,
+    },
+    nombre: {
+      type: DataTypes.STRING(60),
+      allowNull: true,
+    },
+    apellido: {
+      type: DataTypes.STRING(60),
+      allowNull: true,
+    },
+    mail: {
+      type: DataTypes.STRING(60),
+      allowNull: true,
+    },
+    telefono: {
+      type: DataTypes.STRING(20),
+      allowNull: true,
+    },
+    activo: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
   },
   {
     timestamps: false,
   });
+  models.UserModel.belongsToMany(models.ProviderModel, {through: UserProvider});
+  models.ProviderModel.belongsToMany(models.UserModel, {through: UserProvider});
+
+  
+  const OrderProduct = conn.define('orderproduct', {
+    cantidad: DataTypes.INTEGER,
+  },
+    {
+      timestamps: false,
+    });
   models.OrderModel.belongsToMany(models.ProductModel, { through: OrderProduct });
   models.ProductModel.belongsToMany(models.OrderModel, { through: OrderProduct });
 
