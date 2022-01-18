@@ -43,7 +43,7 @@ router.get('/auth0/callback', passport.authenticate(strategy_name, {  session:fa
 
     console.log(auth0_data);
 
-    const token = passport_callback(strategy_name, provider_user_id, provider_email, user_id);
+    const token = passport_callback(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
 
     const url_front = `${process.env.URL_FRONT}/?token=${token}`;
 

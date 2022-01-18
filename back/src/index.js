@@ -34,7 +34,7 @@ async function main() {
     swaggerDefinition: {
       info: {
         title: 'Delilah Restó API',
-        version: '2.0.0',
+        version: '4.0.0',
         description: 'by Gonzalo Parra',
       },
       securityDefinitions: {
@@ -55,7 +55,7 @@ async function main() {
 
   // database
   await connect(MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DATABASE);
-  // initialize();
+  initialize();
 
   // redis
   redisConn(REDIS_HOST, REDIS_PORT);

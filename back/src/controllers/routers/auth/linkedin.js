@@ -42,7 +42,9 @@ router.get('/linkedin/callback', passport.authenticate(strategy_name, {  session
     const provider_user_id = linkedin_data.id;
     const provider_email = linkedin_data.email;
 
-    const token = passport_callback(strategy_name, provider_user_id, provider_email, user_id);
+    console.log(linkedin_data);
+
+    const token = passport_callback(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
 
     const url_front = `${process.env.URL_FRONT}/?token=${token}`;
 

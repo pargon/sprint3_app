@@ -42,8 +42,12 @@ router.get('/google/callback', passport.authenticate(strategy_name, {  session:f
     const user_id = req.query.state;
     const provider_user_id = google_data.sub;
     const provider_email = google_data.email;
+    const user_name = google_data.given_name;
+    const user_lastname = google_data.family_name;
+    
+    console.log(google_data);
 
-    const token = passport_callback(strategy_name, provider_user_id, provider_email, user_id);
+    const token = passport_callback(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
 
     const url_front = `${process.env.URL_FRONT}/?token=${token}`;
 
