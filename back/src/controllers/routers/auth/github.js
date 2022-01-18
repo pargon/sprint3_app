@@ -5,7 +5,7 @@ const { passport_connect, passport_callback } = require('./utils');
 const strategy_name = 'github';
 const strategy_scope = ['user:email', 'read:user'];
 
-router.get('/github/auth', passport.authenticate(strategy_name, { session:false, scope: strategy_scope}));
+router.get('/github/auth', passport.authenticate(strategy_name, { session: false, scope: strategy_scope }));
 
 
 router.get('/github/connect', function (req, res, next) {
@@ -16,13 +16,13 @@ router.get('/github/connect', function (req, res, next) {
   console.log("New request GET to /github/connect");
 
   // We supose that the middleware defines the req.user object
-  req.user = {id: 1,}
+  req.user = { id: 1, }
 
   passport_connect(strategy_name, strategy_scope, req, res, next);
 });
 
-router.get('/github/callback', passport.authenticate(strategy_name, {  session:false, failureRedirect: '/failed' }),
-  function(req, res) {
+router.get('/github/callback', passport.authenticate(strategy_name, { session: false, failureRedirect: '/failed' }),
+  function (req, res) {
     /*
     Successful authentication.
     Google correctly authenticated the user and defined the following variables for us:
@@ -41,7 +41,11 @@ router.get('/github/callback', passport.authenticate(strategy_name, {  session:f
     const user_id = req.query.state;
     const provider_user_id = github_data.id;
     const provider_email = github_data.email;
-    
+    const user_name = github_data.name;
+    const user_lastname = '';
+
+    console.log(github_data);
+
     const token = passport_callback(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
 
     const url_front = `${process.env.URL_FRONT}/?token=${token}`;

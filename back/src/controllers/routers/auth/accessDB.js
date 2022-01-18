@@ -2,8 +2,14 @@ const chalk = require('chalk');
 const db = require('../../');
 
 
-async function getUserByProvider(strategy_name, provider_user_id, provider_email, user_id) {
+async function addRelation(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname) {
 
+  return null;
+}
+
+async function getUserByProvider(strategy_name, provider_user_id, provider_email, user_name, user_lastname) {
+
+  // get modelos
   const Provider = db.getModel('ProviderModel');
   const User = db.getModel('UserModel');
 
@@ -20,14 +26,13 @@ async function getUserByProvider(strategy_name, provider_user_id, provider_email
 
   if (current) {
     // por cada producto en detalle
-    current.forEach(detElement => {
-      return detElement;
-    });
+    return current.User;
   }
-  return null;
+
+  return createUserByProvider(strategy_name, provider_user_id, provider_email, user_name, user_lastname);
 }
 
-async function createUserByProvider(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname) {
+async function createUserByProvider(strategy_name, provider_user_id, provider_email, user_name, user_lastname) {
 
   try {
 
@@ -51,7 +56,7 @@ async function createUserByProvider(strategy_name, provider_user_id, provider_em
         activo: true
       }
     });
-    return currProvider;
+    return currUser;
 
   } catch (error) {
     global.console.log(error);
@@ -109,6 +114,6 @@ async function getProvider(strategy_name) {
 }
 
 module.exports = {
-  getUserByProvider,
-  createUserByProvider
+  addRelation,
+  getUserByProvider
 };

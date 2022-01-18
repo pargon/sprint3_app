@@ -22,7 +22,6 @@ function makeServer() {
   server.use('/v1/users', auth_routes);
   server.use(payment_routes);
 
-
   
   server.get('/', (req, res) => res.render('index', {
     title: 'App Resto',

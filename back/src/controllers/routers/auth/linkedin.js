@@ -5,7 +5,7 @@ const { passport_connect, passport_callback } = require('./utils');
 const strategy_name = 'linkedin';
 const strategy_scope = ['r_liteprofile', 'r_emailaddress']
 
-router.get('/linkedin/auth', passport.authenticate(strategy_name, { session:false, scope: strategy_scope}));
+router.get('/linkedin/auth', passport.authenticate(strategy_name, { session: false, scope: strategy_scope }));
 
 router.get('/linkedin/connect', function (req, res, next) {
   /* Connects the current user account with Google. */
@@ -15,13 +15,13 @@ router.get('/linkedin/connect', function (req, res, next) {
   console.log("New request GET to /linkedin/connect");
 
   // We supose that the middleware defines the req.user object
-  req.user = {id: 1,}
+  req.user = { id: 1, }
 
   passport_connect(strategy_name, strategy_scope, req, res, next);
 });
 
-router.get('/linkedin/callback', passport.authenticate(strategy_name, {  session:false, failureRedirect: '/failed' }),
-  function(req, res) {
+router.get('/linkedin/callback', passport.authenticate(strategy_name, { session: false, failureRedirect: '/failed' }),
+  function (req, res) {
     /*
     Successful authentication.
     Google correctly authenticated the user and defined the following variables for us:
@@ -41,6 +41,8 @@ router.get('/linkedin/callback', passport.authenticate(strategy_name, {  session
     const user_id = req.query.state;
     const provider_user_id = linkedin_data.id;
     const provider_email = linkedin_data.email;
+    const user_name = linkedin_data.firstName.localized.en_US;
+    const user_lastname = linkedin_data.lastName.localized.en_US;
 
     console.log(linkedin_data);
 

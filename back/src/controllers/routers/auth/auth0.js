@@ -40,7 +40,9 @@ router.get('/auth0/callback', passport.authenticate(strategy_name, {  session:fa
     const user_id = req.query.state;
     const provider_user_id = auth0_data.sub;
     const provider_email = auth0_data.email;
-
+    const user_name = auth0_data.name;
+    const user_lastname = '';
+    
     console.log(auth0_data);
 
     const token = passport_callback(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);

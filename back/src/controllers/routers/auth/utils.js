@@ -38,7 +38,7 @@ function passport_callback(strategy_name, provider_user_id, provider_email, user
   if (user_id) {
     console.log(`Connect the ${strategy_name} account to the user ${user_id}`);
     // TODO: create the relation between user and provider for user_id and provider(${strategy_name}_data)
-    user = dbaccess.getUserByProvider(strategy_name, provider_user_id, provider_email, user_id);
+    user = dbaccess.addRelation(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
 
   } else {
     console.log(`This is a login event. Check in the database if exists some user with this ${strategy_name} account.
@@ -46,9 +46,10 @@ function passport_callback(strategy_name, provider_user_id, provider_email, user
     // TODO: Check if exists a user with this ${strategy_name} account and log in him.
     // TODO: If not exists, create the user and create the relation
     //       between user and provider for user_id and provider(${strategy_name}_data)
-    user = dbaccess.createUserByProvider(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
-
+    user = dbaccess.getUserByProvider(strategy_name, provider_user_id, provider_email, user_name, user_lastname);
   }
+
+  console.log(chalk.bgCyan( JSON.stringify( user)));
 
   // TODO: generate a new token for login
   const token = createToken(user.userid);

@@ -40,6 +40,10 @@ router.get('/facebook/callback', passport.authenticate(strategy_name, {  session
     const user_id = req.query.state;
     const provider_user_id = facebook_data.id;
     const provider_email = facebook_data.email;
+    const user_name = facebook_data.first_name;
+    const user_lastname = facebook_data.last_name;
+
+    console.log(facebook_data);
 
     const token = passport_callback(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
 
