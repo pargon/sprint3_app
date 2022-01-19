@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
@@ -22,7 +23,7 @@ router.get('/google/connect', function (req, res, next) {
 });
 
 router.get('/google/callback', passport.authenticate(strategy_name, {  session:false, failureRedirect: '/failed' }),
-  function(req, res) {
+  async function(req, res) {
     /*
     Successful authentication.
     Google correctly authenticated the user and defined the following variables for us:
@@ -47,10 +48,11 @@ router.get('/google/callback', passport.authenticate(strategy_name, {  session:f
     
     console.log(google_data);
 
-    const token = passport_callback(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
+    const token = await passport_callback(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
+    
+    const url_front = `${process.env.URL_FRONT}/orders`;
 
-    const url_front = `${process.env.URL_FRONT}/?token=${token}`;
-
+    res.header( 'x-authorization', `Bearer ${token}` );
     res.redirect(301, url_front);
 
   }
