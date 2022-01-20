@@ -23,7 +23,7 @@ function makeServer() {
   server.use('/v1/paymeths', createPayMethRouter());
   server.use('/v1/orders', createOrderRouter());
   server.use('/v1/users', auth_routes);
-  server.use(payment_routes);
+  server.use('/v1', payment_routes);
 
   
   server.get('/', (req, res) => res.render('index', {

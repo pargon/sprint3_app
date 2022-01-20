@@ -15,7 +15,7 @@ let main = () => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
     const token = params.token;
-    
+
     // delete token
     urlSearchParams.delete('token');
 
@@ -25,11 +25,9 @@ let main = () => {
     if (token) {
         getUserData(token);
         getAllOrders(token);
+    } else {
+        window.location.href = `/index`
     }
-
-    // else
-    //    window.location.href = `/index.html`
-
 }
 
 
@@ -60,20 +58,30 @@ function getAllOrders(token) {
 
                 txtOut += `<p id="orderId2"> Order Id: <b>${data[k].id}</b><br/></p>`;
                 txtOut += `<p id="orderState"> State: <b>${data[k].estado}</b><br/></p>`;
-                txtOut += `<p id="orderPrice">Total Price: <b>${totalPrice}</b><br/></p>`;
+                txtOut += `<p id="orderPrice"> Total Price: <b>${totalPrice}</b><br/></p>`;
                 txtOut += `<p id="orderAddress"> Address: <b>${data[k].direccion_entrega}</b><br/></p>`;
 
-                txtOut += `<button class="btn btn-success btn-payment"  data-order-id="${data[k].id}" data-token-user="${token}">Pay the order</button><hr/>`
+                txtOut += `<button class="btn btn-success btn-paymentMP" data-order-id="${data[k].id}" data-token-user="${token}">MercadoPago</button>`;
+                txtOut += ` `;
+                txtOut += `<button class="btn btn-success btn-paymentPP" data-order-id="${data[k].id}" data-token-user="${token}">PayPal</button><hr/>`;
             }
 
             divOut.innerHTML = txtOut;
 
-            //Seleccionamos todo lo que tenga la clase ".btn-payment"
-            const buttonsPayment = document.querySelectorAll('.btn-payment')
+            //Seleccionamos todo lo que tenga la clase ".btn-paymentMP"
+            const buttonsPaymentMP = document.querySelectorAll('.btn-paymentMP')
 
             //Le agregamos eventos
-            for (let i = 0; i < buttonsPayment.length; i++) {
-                buttonsPayment[i].addEventListener('click', payment_event);
+            for (let i = 0; i < buttonsPaymentMP.length; i++) {
+                buttonsPaymentMP[i].addEventListener('click', payment_eventMP);
+            }
+
+            //Seleccionamos todo lo que tenga la clase ".btn-paymentPP"
+            const buttonsPaymentPP = document.querySelectorAll('.btn-paymentPP')
+
+            //Le agregamos eventos
+            for (let i = 0; i < buttonsPaymentPP.length; i++) {
+                buttonsPaymentPP[i].addEventListener('click', payment_eventPP);
             }
         })
         .catch(error => {
@@ -102,10 +110,10 @@ let getUserData = (token) => {
             if (divUserData) {
                 let txtOut = "";
 
-                txtOut += `<p id="userId"> User: <b>${data.userid}</b><br/></p>`;
+                txtOut += `<p id="userId">User: <b>${data.userid}</b><br/></p>`;
                 txtOut += `<p id="name">Name: <b>${data.nombre}</b><br/></p>`;
                 txtOut += `<p id="name">Last Name: <b>${data.apellido}</b><br/></p>`;
-                txtOut += `<p id="email"> Email: <b>${data.mail}</b><br/></p>`;
+                txtOut += `<p id="email">Email: <b>${data.mail}</b><br/></p>`;
 
                 divUserData.innerHTML = txtOut;
             }
@@ -125,16 +133,47 @@ main();
 /////////////////////////////////////////////////////////////
 // Eventos 
 
-
-
-// 1) Función que consume los endpoints de paypL
-let payment_event = (e) => {
+// 1) Función que consume los endpoints de MP
+let payment_eventMP = (e) => {
 
     e.preventDefault();
     const orderId = e.target.getAttribute("data-order-id");
     const token = e.target.getAttribute("data-token-user");
 
-    window.location.href = `${base_url_front}/payments.html?orderId=${orderId}&token=${token}`;
+    //----------------    
+    // paso 1. Preparar el pago (ir al backend y obtener un preference_id)
+    // paso 2. Crear un botón que abre la ventana de MercadoPago.
 
+    const payment_url = `${base_url}/mercadopago/pago`;
 
+    const data = { "orderid": orderId }
+
+    fetch(payment_url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+
+            const url = data.url;
+        
+            // use the URL if you want to redirect
+            console.log(`Redireccionar a la url: ${url}`)
+            window.location.href = url;
+        });
+}
+
+// 2) Función que consume los endpoints de PP
+let payment_eventPP = (e) => {
+
+    e.preventDefault();
+    const orderId = e.target.getAttribute("data-order-id");
+    const token = e.target.getAttribute("data-token-user");
+
+    window.location.href = `${base_url_front}/payments?orderId=${orderId}&token=${token}`;
 }

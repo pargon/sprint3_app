@@ -100,6 +100,9 @@ async function chkUserActive(req, res, next) {
   });
   if (current) {
     if (current.activo) {
+
+      req.userdata = current;
+      
       next();
     } else {
       res

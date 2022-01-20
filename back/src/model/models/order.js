@@ -14,6 +14,10 @@ function createModel(sequelize) {
       type: DataTypes.STRING(100),
       allowNull: true,
     },
+    pagoid: {
+      type: DataTypes.STRING(100),
+      allowNull: true,
+    },
   }, {
     timestamps: false,
   });

@@ -65,6 +65,93 @@ async function chkUpdateOrder(req, res, next) {
   }
 }
 
+async function chkOrderPayment(req, res, next) {
+
+  // modeloS
+  const Order = db.getModel('OrderModel');
+  const Product = db.getModel('ProductModel');
+
+  // variables
+  const id = req.body.orderid;
+  const { userid } = req.user;
+
+  // busca order por id
+  const current = await Order.findOne({
+    where: {
+      id
+    },
+    include: [
+      Product
+    ],
+  });
+
+  // encontro order
+  if (current) {
+
+    // usuario order es el mismo del token
+    if (current.userUserid === userid) {
+
+      // estado order valido
+      if (current.estado === 'Pendiente') {
+        
+        const { products } = current;
+        let totalPrd = 0;
+
+        // compara con producto en order
+        products.forEach(prdElement => {
+          totalPrd += prdElement.precio * prdElement.orderproduct.cantidad;
+        });
+
+        const order = {
+          orderid: id,
+          total: totalPrd,
+          productos: products,
+        };
+        req.order = order;
+
+        next();
+
+      } else {
+        res
+          .status(403)
+          .json({
+            message: 'El Pedido debe estar Pendiente'
+          });
+      }
+    } else {
+      res
+        .status(401)
+        .json({
+          message: 'Pedido no pertenece al Usuario'
+        });
+    }
+  } else {
+    res
+      .status(404)
+      .json({
+        message: 'Pedido no encontrado'
+      });
+  }
+}
+
+async function initPaymentOrder(orderid, payid){
+  // modeloS
+  const Order = db.getModel('OrderModel');
+
+  // busca order por id
+  const current = await Order.findOne({
+    where: {
+      id: orderid,
+    },
+  });
+
+  if(current){
+    current.pagoid = payid;
+    current.save();
+  }
+}
+
+
 function chkUpdateOrderDetail(products, detalle) {
   let detalleExiste = true;
 
@@ -90,4 +177,6 @@ function chkUpdateOrderDetail(products, detalle) {
 
 module.exports = {
   chkUpdateOrder,
+  chkOrderPayment,
+  initPaymentOrder,
 };

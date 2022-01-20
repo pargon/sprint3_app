@@ -1,49 +1,61 @@
 const express = require('express');
 const router = express.Router();
 require('dotenv').config();
-const mercadopago = require ('mercadopago');
-
+const mercadopago = require('mercadopago');
+const { chkToken } = require('../../midds/token');
+const { chkAdmin, chkUserActive, chkUserAddress } = require('../../midds/users');
+const { chkOrderPayment, initPaymentOrder } = require('../../midds/orders');
 
 // Agrega credenciales
 mercadopago.configure({
   access_token: process.env.MERCADOPAGO_TOKEN
 });
 
-router.post('/pago', function(req, res) {
+router.post('/pago', chkToken, chkUserActive, chkOrderPayment, async (req, res) => {
   console.log("New request POST to /pago");
-  // TODO: protect this route with a middleware
 
-  // TODO: get user data from the database
+  // datos del usuario en REQ 
+  const {
+    userid,
+    nombre,
+    apellido,
+    mail
+  } = req.userdata;
+
+  // datos del pedido en REQ 
+  const {
+    orderid,
+    productos,
+    total
+  } = req.order;
+
+  // token en REQ 
+  const token = req.token;
+
+  // usuario logueado
   const user = {
-    "name": "Andrea",
-    "last_name": "Campanella",
-    "email": "andrea@campanella.com",
+    "name": nombre || userid,
+    "last_name": apellido || userid,
+    "email": mail || userid,
   }
 
-  // TODO: get items from the database
-  const amount = req.body.amount;
   let items = [
     {
-      title: 'iPhone 13 Max PRO',
-      unit_price: 2000,
-      quantity: 5,
-    },
-    {
-      title: 'iPad',
-      unit_price: 1200,
-      quantity: 5,
-    },
+      title: 'Pedido',
+      unit_price: total,
+      quantity: 1,
+    }
   ]
 
   // Crea un objeto de preferencia
   let preference = {
     "auto_return": "approved",
     "back_urls": {
-        "success": `${process.env.URL_FRONT}/success`,  // TODO: define this
-        "failure": `${process.env.URL_FRONT}/failure`,  // TODO: define this
-        "pending": `${process.env.URL_FRONT}/pending`  // TODO: define this
+      "success": `${process.env.URL_FRONT}/orders?token=${token}`,  // TODO: define this
+      "failure": `${process.env.URL_FRONT}/orders?token=${token}`,  // TODO: define this
+      "pending": `${process.env.URL_FRONT}/orders?token=${token}`   // TODO: define this
     },
-   "payer": {
+    "payer": {
       "name": user.name,
       "surname": user.last_name,
       "email": user.email,
@@ -53,15 +65,20 @@ router.post('/pago', function(req, res) {
 
   // petición a mercado pago para preparar la compra
   mercadopago.preferences.create(preference)
-  .then(function(response){
-    // Ok, haga el proceso de pago con este id:
-    console.log(response)
-    let id = response.body.id;
-    res.json({"preference_id": id, 'url': response.body.sandbox_init_point});
-  }).catch(function(error){
-    console.log(error);
-  });
+    .then(function (response) {
+      // Ok, haga el proceso de pago con este id:
+      console.log(response)
+      let id = response.body.id;
 
+      // update pedido con id de pago 
+      initPaymentOrder(orderid, id);
+
+      res.json({ "preference_id": id, 'url': response.body.sandbox_init_point });
+    }).catch(function (error) {
+      console.log(error);
+    });
 });
+
+
 
 module.exports = router
