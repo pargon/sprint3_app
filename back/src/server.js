@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const { createRouter: createUserRouter } = require('./controllers/routers/users');
 const { createRouter: createProductRouter } = require('./controllers/routers/products');
 const { createRouter: createPayMethRouter } = require('./controllers/routers/paymeths');
@@ -14,6 +15,8 @@ function makeServer() {
   server.use(express.json());
   server.use(express.urlencoded({ extended: false }));
 
+  server.use(cors());
+  
   // endpoints
   server.use('/v1/users', createUserRouter());
   server.use('/v1/products', createProductRouter());

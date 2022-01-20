@@ -209,6 +209,40 @@ function createRouter() {
       .status(200)
       .json(orders);
   });
+  /**
+   * @swagger
+   * /v1/orders:
+   *  get:
+   *    summary: Todos los pedidos del Usuario
+   *    description: Obtener un listado con todos los pedidos del Usuario.
+   *    security:
+   *    - Bearer: []
+   *    produces:
+   *    - "application/json"
+   *    responses:
+   *      200:
+   *        description: Peticion exitosa
+   *      403:
+   *        description: Invalid Token
+   *
+   */
+  router.get('/', chkToken, chkUserActive, async (req, res) => {
+    const Order = db.getModel('OrderModel');
+    const Product = db.getModel('ProductModel');
+
+    const { userid } = req.user;
+
+    const orders = await Order.findAll({
+      where: {
+        userUserid: userid
+      },
+      include: [Product]
+    });
+
+    res
+      .status(200)
+      .json(orders);
+  });
   return router;
 }
 

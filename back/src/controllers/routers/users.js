@@ -208,13 +208,20 @@ function createRouter() {
     }
   });
 
-  router.get('/', chkToken, chkAdmin, chkUserActive, async (req, res) => {
+  router.get('/', chkToken, chkUserActive, async (req, res) => {
     const User = db.getModel('UserModel');
     const Address = db.getModel('AddressModel');
-    global.console.time('GET Users');
-    const users = await User.findAll({ include: [Address] });
-    global.console.timeEnd('GET Users');
-    res.json(users);
+
+    const { userid } = req.user;
+
+    const users = await User.findOne({
+      where: {
+        userid
+      },
+      include: [Address] 
+    });
+
+    res.status(200).json(users);
   });
 
   return router;
