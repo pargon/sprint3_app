@@ -11,16 +11,21 @@ let paymentBox = document.getElementById('box-payment');
 
 
 let main = () => {
+    // console.log(localStorage);
+    // const token = localStorage.getItem('token');
 
+    // const bearer = req.headers.authorization;
+    // const token2 = (bearer !== undefined ? bearer : '')
+    //   .replace('Bearer ', '');
+    
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
     const token = params.token;
 
-    // delete token
-    urlSearchParams.delete('token');
+    console.log(urlSearchParams);
 
     // TODO: remove token from url
-    console.log(`token:${token}`);
+    // console.log(`token:${token} y ${token2}`);
 
     if (token) {
         getUserData(token);

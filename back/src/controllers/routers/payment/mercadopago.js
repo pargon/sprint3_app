@@ -4,7 +4,7 @@ require('dotenv').config();
 const mercadopago = require('mercadopago');
 const { chkToken } = require('../../midds/token');
 const { chkAdmin, chkUserActive, chkUserAddress } = require('../../midds/users');
-const { chkOrderPayment, initPaymentOrder } = require('../../midds/orders');
+const { chkOrderPayment, initPaymentOrder, successPaymentOrder } = require('../../midds/orders');
 
 // Agrega credenciales
 mercadopago.configure({
@@ -51,7 +51,7 @@ router.post('/pago', chkToken, chkUserActive, chkOrderPayment, async (req, res) 
   let preference = {
     "auto_return": "approved",
     "back_urls": {
-      "success": `${process.env.URL_FRONT}/orders?token=${token}`,  // TODO: define this
+      "success": `${process.env.URL_BACK}/mercadopago/success?token=${token}`,  // TODO: define this
       "failure": `${process.env.URL_FRONT}/orders?token=${token}`,  // TODO: define this
       "pending": `${process.env.URL_FRONT}/orders?token=${token}`   // TODO: define this
     },
@@ -78,6 +78,20 @@ router.post('/pago', chkToken, chkUserActive, chkOrderPayment, async (req, res) 
       console.log(error);
     });
 });
+
+router.get('/success', async (req, res) => {
+  
+  console.log(req.query);
+  const {token} = req.query;
+  const {preference_id} = req.query;
+
+  await successPaymentOrder(preference_id);
+
+  const url_front = `${process.env.URL_FRONT}/orders?token=${token}`;
+
+  res.redirect(301, url_front);
+});
+
 
 
 

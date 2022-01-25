@@ -234,7 +234,8 @@ function createRouter() {
 
     const orders = await Order.findAll({
       where: {
-        userUserid: userid
+        userUserid: userid,
+        estado: "Pendiente"
       },
       include: [Product]
     });

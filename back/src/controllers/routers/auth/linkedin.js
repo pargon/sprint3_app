@@ -48,7 +48,7 @@ router.get('/linkedin/callback', passport.authenticate(strategy_name, { session:
 
     const token = passport_callback(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
 
-    const url_front = `${process.env.URL_FRONT}/?token=${token}`;
+    const url_front = `${process.env.URL_FRONT}/orders?token=${token}`;
 
     res.redirect(301, url_front);
   }

@@ -4,3 +4,5 @@ node_modules
 .editorconfig
 .vscode
 app_url.txt
+mylocal_mysql_vol
+mylocal_redis_vol

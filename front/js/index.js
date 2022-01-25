@@ -1,6 +1,7 @@
 /////////////////////////////////////////////////////////////
 // Variables Iniciales
-const base_url =  "http://localhost:5050/v1"
+const base_url = "http://localhost:5050/v1/users"
+
 let form = document.getElementById('login_form');
 let buttons = document.querySelectorAll('.providers button');
 
@@ -30,7 +31,7 @@ function login_event(e) {
   let message = document.getElementById('message');
   let formData = new FormData(form); //Get all inputs from the form 
   let data = Object.fromEntries(formData); //Convert data into json 
-  let url_login = `${base_url}/users/login`
+  let url_login = `${base_url}/login`
 
   message.textContent = "";
 
@@ -58,6 +59,8 @@ function login_event(e) {
       if (data.message)
         message.textContent = data.message;
       else {
+        window.localStorage.setItem('token', data.token);
+        sessionStorage.setItem("token",  data.token);
         window.location.replace(`/orders?token=${data.token}`);
       }
     })
@@ -72,21 +75,6 @@ function login_event(e) {
 function login_provider_event(event) {
   event.preventDefault();
   const provider = this.getAttribute("data-provider");
-  window.location.href = `${base_url}/auth/${provider}`;
-
+  console.log( window.localStorage);
+  window.location.href = `${base_url}/${provider}/auth`;
 }
-
-
-
-/////////////////////////////////////////////////////////////
-// Otros
-
-
-//No es una funcion es solo para poder capturar el token
-//Aqui solo capturamos el token
-// const urlSearchParams = new URLSearchParams(window.location.search);
-// const params = Object.fromEntries(urlSearchParams.entries());
-// const token = params.token;
-// // params.delete("token")
-// // TODO: remove token from url
-// console.log(params.token);

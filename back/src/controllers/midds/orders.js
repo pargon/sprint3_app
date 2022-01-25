@@ -93,7 +93,7 @@ async function chkOrderPayment(req, res, next) {
 
       // estado order valido
       if (current.estado === 'Pendiente') {
-        
+
         const { products } = current;
         let totalPrd = 0;
 
@@ -134,7 +134,7 @@ async function chkOrderPayment(req, res, next) {
   }
 }
 
-async function initPaymentOrder(orderid, payid){
+async function initPaymentOrder(orderid, payid) {
   // modeloS
   const Order = db.getModel('OrderModel');
 
@@ -145,12 +145,31 @@ async function initPaymentOrder(orderid, payid){
     },
   });
 
-  if(current){
+  if (current) {
     current.pagoid = payid;
     current.save();
   }
 }
 
+async function successPaymentOrder(payid) {
+  if (payid) {
+    // modeloS
+    const Order = db.getModel('OrderModel');
+
+    // busca order por id
+    const current = await Order.findOne({
+      where: {
+        pagoid: payid,
+      },
+    });
+
+    if (current) {
+      current.estado = "Pagado";
+      current.save();
+    }
+  }
+
+}
 
 function chkUpdateOrderDetail(products, detalle) {
   let detalleExiste = true;
@@ -179,4 +198,5 @@ module.exports = {
   chkUpdateOrder,
   chkOrderPayment,
   initPaymentOrder,
+  successPaymentOrder,
 };

@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  mydb:
+    container_name: mysql_container  # Este nombre será usado como parámetro 'host' en la conexión a la base de datos
+    image: mysql
+    # ports:
+    #   - "${MYSQL_PORT}:3306"
+    environment:  # la imagen requiere tener unas variables de entorno configuradas
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASS}  # TODO: usar variables de entorno
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_PASSWORD=${MYSQL_PASS}
+    volumes:
+      # el volumen 'mylocal_mysql_vol' será creado en tu ruta /var/lib/docker/volumes, ver https://stackoverflow.com/a/39208187
+      - ./mylocal_mysql_vol:/var/lib/mysql
+    networks:
+      - my_network
+    cap_add:
+      - SYS_NICE  # https://stackoverflow.com/questions/55559386/how-to-fix-mbind-operation-not-permitted-in-mysql-error-log
+  redis_db:
+    container_name: redis_container
+    image: redis
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      # el volumen 'mylocal_redis_vol' será creado en tu ruta /var/lib/docker/volumes, ver https://stackoverflow.com/a/39208187
+      - ./mylocal_redis_vol:/etc/redis/database
+    networks:
+      - my_network
+  api:
+    depends_on:
+      - mydb
+      - redis_db
+    build: .
+
+    container_name: api_container
+    ports:
+      - "4567:5050"
+    volumes:
+      - ./:/usr/src/app/ # carpeta_host:carpeta_contenedor
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    name: api_network
+
+volumes:
+  mydbvol:
+  mylocal_redis_vol:
