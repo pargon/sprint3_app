@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 require('dotenv').config();
 const paypal = require('@paypal/checkout-server-sdk');
+const { chkToken } = require('../../midds/token');
+const { chkAdmin, chkUserActive, chkUserAddress } = require('../../midds/users');
+const { chkOrderPayment, initPaymentOrder, successPaymentOrder } = require('../../midds/orders');
 
 
 // Agrega credenciales
@@ -14,58 +17,65 @@ let client = new paypal.core.PayPalHttpClient(environment);
 
 //2.1. Crea orden de pago
 //2.2 Devuelve el link de pago
-router.post('/pago', async (req, res) => {
+router.post('/pago', chkToken, chkUserActive, chkOrderPayment, async (req, res) => {
+
+  console.log("New request POST to /pago");
+
+  // datos del pedido en REQ 
+  const {
+    orderid,
+    productos,
+    total
+  } = req.order;
+
+  // token en REQ 
+  const token = req.token;
+
+  // Crea un objeto de preferencia
   let request = new paypal.orders.OrdersCreateRequest();
   request.requestBody({
-        "intent": "CAPTURE",
-        "purchase_units": [
-            {
-                "amount": {
-                    "currency_code": "USD",
-                    "value": "100.00"
-                }
-            }
-          ],
-        "application_context": {
-          "return_url": `http://localhost:${process.env.PORT}/paypal/redirect`, //se define la url de regreso si se completó el pago -> 3.
-          "cancel_url": `http://localhost:${process.env.PORT}/paypal/cancel` //se define la url de regreso si se quiere cancelar -> 4.
+    "intent": "CAPTURE",
+    "purchase_units": [
+      {
+        "amount": {
+          "currency_code": "USD",
+          "value": total
         }
+      }
+    ],
+    "application_context": {
+      "return_url": `${process.env.URL_BACK}/paypal/success?tokenapp=${token}`,  // TODO: define this
+      "cancel_url": `${process.env.URL_FRONT}/orders?token=${token}`,  // TODO: define this
+    }
   });
-  client.execute(request).then( response => {
-    let {links} = response.result;
-    console.log(links);
-    let url = links.filter(link => link.rel == "approve");
-    res.status(response.statusCode).json(url.pop());
-  }).catch(err =>{
-    console.error(err);
-    res.status(err.statusCode).json(err);
-  });
-});
 
-
-//2.3.  Cuando el pago se completa, se obtiene el token para capturar el pago del comprador
-router.get('/redirect', async (req, res) => {
-  let {token} = req.query;
-  request = new paypal.orders.OrdersCaptureRequest(token);
-  request.requestBody({});
-  client.execute(request).then(response=>{
+  // Cliente ejecuta 
+  client.execute(request).then(response => {
+    let { id, links } = response.result;
     console.log(response.result);
-    //TO DO
-    //Redireccionar al front para mostrar el estado de la transacion 
-    res.status(200).json(response.result);
+    let url = links.filter(link => link.rel == "approve");
+
+    // update pedido con id de pago 
+    initPaymentOrder(orderid, id);
+
+    res.status(response.statusCode).json(url.pop());
   }).catch(err => {
     console.error(err);
     res.status(err.statusCode).json(err);
   });
 });
 
-//2.4. Cuando se cancela, se redirige acá
-router.get('/cancel',async (req,res) => {
-  console.log(`Payment cancelled`);
-  res.status(200).json(`Payment cancelled`);
+router.get('/success', async (req, res) => {
+  
+  console.log(req.query);
+  const {tokenapp, token} = req.query;
+
+  await successPaymentOrder(token);
+
+  const url_front = `${process.env.URL_FRONT}/orders?token=${tokenapp}`;
+
+  res.redirect(301, url_front);
 });
 
-
-// 3) Exportamos los endpoints del router
 
 module.exports = router

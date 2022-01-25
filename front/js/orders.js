@@ -17,7 +17,7 @@ let main = () => {
     // const bearer = req.headers.authorization;
     // const token2 = (bearer !== undefined ? bearer : '')
     //   .replace('Bearer ', '');
-    
+
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
     const token = params.token;
@@ -166,7 +166,7 @@ let payment_eventMP = (e) => {
             console.log(data);
 
             const url = data.url;
-        
+
             // use the URL if you want to redirect
             console.log(`Redireccionar a la url: ${url}`)
             window.location.href = url;
@@ -175,10 +175,34 @@ let payment_eventMP = (e) => {
 
 // 2) Función que consume los endpoints de PP
 let payment_eventPP = (e) => {
+    console.log('entra paypal');
+    console.log(e);
 
     e.preventDefault();
     const orderId = e.target.getAttribute("data-order-id");
     const token = e.target.getAttribute("data-token-user");
 
-    window.location.href = `${base_url_front}/payments?orderId=${orderId}&token=${token}`;
+    const payment_url = `${base_url}/paypal/pago`;
+
+    const data = { "orderid": orderId }
+
+
+    fetch(payment_url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+
+            const url = data.href;
+
+            // use the URL if you want to redirect
+            console.log(`Redireccionar a la url: ${url}`)
+            window.location.href = url;
+        });
 }
