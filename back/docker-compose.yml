@@ -4,15 +4,15 @@ services:
   mydb:
     container_name: mysql_container  # Este nombre será usado como parámetro 'host' en la conexión a la base de datos
     image: mysql
-    # ports:
-    #   - "${MYSQL_PORT}:3306"
+    ports:
+      - "3307:3306"
     environment:  # la imagen requiere tener unas variables de entorno configuradas
-      - MYSQL_ROOT_PASSWORD=${MYSQL_PASS}  # TODO: usar variables de entorno
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_PASSWORD=${MYSQL_PASS}
+      - MYSQL_ROOT_PASSWORD=123456 # ${MYSQL_PASS}  # TODO: usar variables de entorno
+      - MYSQL_DATABASE=myapp2 #${MYSQL_DATABASE}
+      # - MYSQL_PASSWORD=123456  #${MYSQL_PASS}
     volumes:
       # el volumen 'mylocal_mysql_vol' será creado en tu ruta /var/lib/docker/volumes, ver https://stackoverflow.com/a/39208187
-      - ./mylocal_mysql_vol:/var/lib/mysql
+      - mylocal_mysql_vol:/var/lib/mysql
     networks:
       - my_network
     cap_add:
@@ -24,7 +24,7 @@ services:
       - "${REDIS_PORT}:6379"
     volumes:
       # el volumen 'mylocal_redis_vol' será creado en tu ruta /var/lib/docker/volumes, ver https://stackoverflow.com/a/39208187
-      - ./mylocal_redis_vol:/etc/redis/database
+      - mylocal_redis_vol:/etc/redis/database
     networks:
       - my_network
   api:
@@ -46,5 +46,5 @@ networks:
     name: api_network
 
 volumes:
-  mydbvol:
+  mylocal_mysql_vol:
   mylocal_redis_vol:

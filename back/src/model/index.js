@@ -18,7 +18,7 @@ async function connect(host, port, username, password, database) {
     password,
     host,
     port,
-    dialect: 'mariadb',
+    dialect: 'mysql',   //, mariadb
     timestamps: false,
   });
 

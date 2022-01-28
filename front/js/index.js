@@ -59,8 +59,8 @@ function login_event(e) {
       if (data.message)
         message.textContent = data.message;
       else {
-        window.localStorage.setItem('token', data.token);
-        sessionStorage.setItem("token",  data.token);
+        localStorage.setItem('token', data.token);
+        // sessionStorage.setItem("token",  data.token);
         window.location.replace(`/orders?token=${data.token}`);
       }
     })
@@ -75,6 +75,6 @@ function login_event(e) {
 function login_provider_event(event) {
   event.preventDefault();
   const provider = this.getAttribute("data-provider");
-  console.log( window.localStorage);
+  console.log(window.localStorage);
   window.location.href = `${base_url}/${provider}/auth`;
 }
