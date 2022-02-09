@@ -1,7 +1,6 @@
 /////////////////////////////////////////////////////////////
 // Variables Iniciales
-const base_url = "http://localhost:5050/v1/users"
-
+const base_url = "https://api.gnparra.tk/v1/users" // "http://localhost:5050/v1/users"
 let form = document.getElementById('login_form');
 let buttons = document.querySelectorAll('.providers button');
 
@@ -47,7 +46,10 @@ function login_event(e) {
 
   fetch(url_login, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify(data)
   })
     .then(response => response.json())

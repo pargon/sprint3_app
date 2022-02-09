@@ -34,6 +34,8 @@ async function chkNewUser(req, res, next) {
 async function login(req, res, next) {
   const { CRYPTO_KEY } = process.env;
   const User = db.getModel('UserModel');
+  console.log(chalk.bgRed(req.body));
+  
   // buscar por userid
   const current = await User.findOne({
     where: {
