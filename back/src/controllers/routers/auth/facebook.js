@@ -21,7 +21,7 @@ router.get('/facebook/connect', function (req, res, next) {
 });
 
 router.get('/facebook/callback', passport.authenticate(strategy_name, {  session:false, failureRedirect: '/failed' }),
-  function(req, res) {
+  async function(req, res) {
     /*
     Successful authentication.
     Google correctly authenticated the user and defined the following variables for us:
@@ -45,7 +45,7 @@ router.get('/facebook/callback', passport.authenticate(strategy_name, {  session
 
     console.log(facebook_data);
 
-    const token = passport_callback(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
+    const token = await passport_callback(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
 
     const url_front = `${process.env.URL_FRONT}/orders.html?token=${token}`;
 
