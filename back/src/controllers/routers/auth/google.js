@@ -50,6 +50,8 @@ router.get('/google/callback', passport.authenticate(strategy_name, {  session:f
 
     const token = await passport_callback(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
     
+    console.log(`token nuevo: ${token}`)
+
     const url_front = `${process.env.URL_FRONT}/orders.html?token=${token}`;
 
     res.header( 'x-authorization', `Bearer ${token}` );

@@ -21,7 +21,7 @@ router.get('/auth0/connect', function (req, res, next) {
 });
 
 router.get('/auth0/callback', passport.authenticate(strategy_name, {  session:false, failureRedirect: '/failed' }),
-  function(req, res) {
+  async function(req, res) {
     /*
     Successful authentication.
     Auth0 correctly authenticated the user and defined the following variables for us:
@@ -45,7 +45,9 @@ router.get('/auth0/callback', passport.authenticate(strategy_name, {  session:fa
     
     console.log(auth0_data);
 
-    const token = passport_callback(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
+    const token = await passport_callback(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
+
+    console.log(`token nuevo: ${token}`)
 
     const url_front = `${process.env.URL_FRONT}/orders.html?token=${token}`;
 
