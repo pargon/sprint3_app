@@ -16,18 +16,18 @@ function passport_connect(strategy_name, strategy_scope, req, res, next) {
   passport_authenticate(req, res, next);
 }
 
-function createToken(userid){
+function createToken(userid) {
   const { JWT_PASS } = process.env;
 
   try {
-    const newtoken = jwt.sign({ userid }, JWT_PASS, { expiresIn: '1h' });    
+    const newtoken = jwt.sign({ userid }, JWT_PASS, { expiresIn: '1h' });
     return newtoken;
 
   } catch (error) {
     console.log(error);
   };
 
-  return null;  
+  return null;
 }
 
 async function passport_callback(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname) {
@@ -39,7 +39,7 @@ async function passport_callback(strategy_name, provider_user_id, provider_email
     console.log(`Connect the ${strategy_name} account to the user ${user_id}`);
     // TODO: create the relation between user and provider for user_id and provider(${strategy_name}_data)
     user = await dbaccess.addRelation(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
-    console.log(chalk.bgGray( JSON.stringify( user)));
+    console.log(chalk.bgGray(JSON.stringify(user)));
 
   } else {
     console.log(`This is a login event. Check in the database if exists some user with this ${strategy_name} account.
@@ -48,10 +48,11 @@ async function passport_callback(strategy_name, provider_user_id, provider_email
     // TODO: If not exists, create the user and create the relation
     //       between user and provider for user_id and provider(${strategy_name}_data)
     user = await dbaccess.getUserByProvider(strategy_name, provider_user_id, provider_email, user_name, user_lastname);
-    console.log(chalk.bgCyan( JSON.stringify( user)));
+    console.log(chalk.bgCyan(JSON.stringify(user)));
   }
 
   const userid = user.userid;
+  console.log(`userid para token: ${userid}`);
 
   // TODO: generate a new token for login
   const token = createToken(userid);
