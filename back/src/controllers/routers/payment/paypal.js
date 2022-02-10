@@ -45,7 +45,7 @@ router.post('/pago', chkToken, chkUserActive, chkOrderPayment, async (req, res) 
     ],
     "application_context": {
       "return_url": `${process.env.URL_BACK}/paypal/success?tokenapp=${token}`,  // TODO: define this
-      "cancel_url": `${process.env.URL_FRONT}/orders?token=${token}`,  // TODO: define this
+      "cancel_url": `${process.env.URL_FRONT}/orders.html?token=${token}`,  // TODO: define this
     }
   });
 
@@ -72,7 +72,7 @@ router.get('/success', async (req, res) => {
 
   await successPaymentOrder(token);
 
-  const url_front = `${process.env.URL_FRONT}/orders?token=${tokenapp}`;
+  const url_front = `${process.env.URL_FRONT}/orders.html?token=${tokenapp}`;
 
   res.redirect(301, url_front);
 });

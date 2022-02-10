@@ -52,8 +52,8 @@ router.post('/pago', chkToken, chkUserActive, chkOrderPayment, async (req, res) 
     "auto_return": "approved",
     "back_urls": {
       "success": `${process.env.URL_BACK}/mercadopago/success?token=${token}`,  // TODO: define this
-      "failure": `${process.env.URL_FRONT}/orders?token=${token}`,  // TODO: define this
-      "pending": `${process.env.URL_FRONT}/orders?token=${token}`   // TODO: define this
+      "failure": `${process.env.URL_FRONT}/orders.html?token=${token}`,  // TODO: define this
+      "pending": `${process.env.URL_FRONT}/orders.html?token=${token}`   // TODO: define this
     },
     "payer": {
       "name": user.name,
@@ -87,7 +87,7 @@ router.get('/success', async (req, res) => {
 
   await successPaymentOrder(preference_id);
 
-  const url_front = `${process.env.URL_FRONT}/orders?token=${token}`;
+  const url_front = `${process.env.URL_FRONT}/orders.html?token=${token}`;
 
   res.redirect(301, url_front);
 });
