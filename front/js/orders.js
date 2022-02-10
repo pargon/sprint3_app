@@ -1,8 +1,7 @@
 /////////////////////////////////////////////////////////////
 // Variables Iniciales
-
-const base_url = "http://localhost:5050/v1"
-const base_url_front = "http://localhost:5000"
+const base_url = "https://api.gnparra.tk/v1"  //"http://localhost:5050/v1"
+const base_url_front = "https://gnparra.tk"  //"http://localhost:5000"
 let paymentBox = document.getElementById('box-payment');
 
 

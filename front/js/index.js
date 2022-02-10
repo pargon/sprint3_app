@@ -46,7 +46,6 @@ function login_event(e) {
 
   fetch(url_login, {
     method: 'POST',
-    mode: 'no-cors',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -63,7 +62,7 @@ function login_event(e) {
       else {
         localStorage.setItem('token', data.token);
         // sessionStorage.setItem("token",  data.token);
-        window.location.replace(`/orders?token=${data.token}`);
+        window.location.replace(`/orders.html?token=${data.token}`);
       }
     })
     .catch(error => {
