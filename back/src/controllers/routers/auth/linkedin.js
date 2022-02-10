@@ -50,7 +50,7 @@ router.get('/linkedin/callback', passport.authenticate(strategy_name, { session:
 
     console.log(`token nuevo: ${token}`)
 
-    const url_front = `${process.env.URL_FRONT}/orders?token=${token}`;
+    const url_front = `${process.env.URL_FRONT}/orders.html?token=${token}`;
 
     res.redirect(301, url_front);
   }
