@@ -29,7 +29,7 @@ function createRouter() {
    *        description: Medio de Pago creado
    *      401:
    *        description: Invalid credential
-   *      401:
+   *      412:
    *        description: Usuario no es Administrador
    *      409:
    *        description: Ya existe el Medio de Pago
@@ -93,7 +93,7 @@ function createRouter() {
    *        description: Medio de Pago actualizado
    *      401:
    *        description: Invalid credential
-   *      401:
+   *      412:
    *        description: Usuario no es Administrador
    *      404:
    *        description: Medio de Pago no encontrado
@@ -173,7 +173,7 @@ function createRouter() {
    *        description: Medio de Pago eliminado
    *      401:
    *        description: Invalid credential
-   *      401:
+   *      412:
    *        description: Usuario no es Administrador
    *      404:
    *        description: Medio de Pago no encontrado
@@ -225,7 +225,7 @@ function createRouter() {
    *        description: Peticion exitosa
    *      401:
    *        description: Invalid credential
-   *      401:
+   *      412:
    *        description: Usuario no es Administrador
    *
    */

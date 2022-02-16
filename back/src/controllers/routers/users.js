@@ -95,12 +95,12 @@ function createRouter() {
  *        description: Usuario Suspendido.
  *      401:
  *        description: Invalid credential
- *      401:
- *        description: Usuario no es Administrador
  *      403:
  *        description: Invalid Token
  *      404:
  *        description: Usuario no encontrado
+ *      412:
+ *        description: Usuario no es Administrador
 */
   router.post('/unable', chkToken, chkAdmin, chkUserActive, async (req, res) => {
     const User = db.getModel('UserModel');
@@ -162,8 +162,6 @@ function createRouter() {
    *    responses:
    *      200:
    *        description: Token
-   *      401:
-   *        description: Password incorrecto
    *      404:
    *        description: Usuario no encontrado
    */

@@ -37,7 +37,7 @@ services:
     ports:
       - "4567:5050"
     volumes:
-      - ./:/usr/src/app/ # carpeta_host:carpeta_contenedor
+      - ./:/usr/src/app # carpeta_host:carpeta_contenedor
     networks:
       - my_network
 

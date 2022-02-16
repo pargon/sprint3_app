@@ -195,7 +195,7 @@ function createRouter() {
    *        description: Peticion exitosa
    *      401:
    *        description: Invalid credential
-   *      401:
+   *      412:
    *        description: Usuario no es Administrador
    *
    */

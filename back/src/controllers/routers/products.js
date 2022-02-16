@@ -29,10 +29,10 @@ function createRouter() {
    *        description: Producto creado
    *      401:
    *        description: Invalid credential
-   *      401:
-   *        description: Usuario no es Administrador
    *      409:
    *        description: Ya existe el producto
+   *      412:
+   *        description: Usuario no es Administrador
    */
   router.post('/', chkToken, chkAdmin, chkUserActive, async (req, res) => {
     // get modelo
@@ -101,12 +101,12 @@ function createRouter() {
    *        description: Producto actualizado
    *      401:
    *        description: Invalid credential
-   *      401:
-   *        description: Usuario no es Administrador
    *      404:
    *        description: Producto no encontrado
    *      409:
    *        description: Producto ya existente con esa Descripción
+   *      412:
+   *        description: Usuario no es Administrador
    */
   router.put('/', chkToken, chkAdmin, chkUserActive, async (req, res) => {
     // get modelo
@@ -189,10 +189,10 @@ function createRouter() {
    *        description: Producto eliminado
    *      401:
    *        description: Invalid credential
-   *      401:
-   *        description: Usuario no es Administrador
    *      404:
    *        description: Producto no encontrado
+   *      412:
+   *        description: Usuario no es Administrador
    */
   router.delete('/', chkToken, chkAdmin, chkUserActive, async (req, res) => {
     // get modelo
@@ -246,7 +246,7 @@ function createRouter() {
    *        description: Peticion exitosa
    *      401:
    *        description: Invalid credential
-   *      401:
+   *      412:
    *        description: Usuario no es Administrador
    *
    */

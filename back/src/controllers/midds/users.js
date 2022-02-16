@@ -34,7 +34,7 @@ async function chkNewUser(req, res, next) {
 async function login(req, res, next) {
   const { CRYPTO_KEY } = process.env;
   const User = db.getModel('UserModel');
-  console.log(chalk.bgRed(JSON.stringify( req.body)));
+  console.log(chalk.bgRed(JSON.stringify(req.body)));
 
   // buscar por userid
   const current = await User.findOne({
@@ -57,8 +57,8 @@ async function login(req, res, next) {
 
     } else {
       res
-        .status(401)
-        .json({ message: 'Password incorrecto' });
+        .status(404)
+        .send({ message: 'Usuario no encontrado' });
     }
   } else {
     res
@@ -104,7 +104,7 @@ async function chkUserActive(req, res, next) {
     if (current.activo) {
 
       req.userdata = current;
-      
+
       next();
     } else {
       res
