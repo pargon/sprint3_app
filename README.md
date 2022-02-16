@@ -13,29 +13,22 @@ El pago de las ordenes se pueden efectuar tanto con Mercado Pago como PayPal.
 * Ingresando a postman o similar
 * Acceder a cada punto según documentación en https://api.gnparra.tk/docs/
 
-## Pasos para crear ordenes
-### Generar usuario
-* Acceder a la api mediante postman o similar para crear usuario
+## Crear ordenes
+* Generar usuario: acceder a la api mediante postman o similar para crear usuario
+* Hacer login: acceder a la api mediante postman o similar para loguear usuario y recuperar el token. De ahora en más para el uso del resto de los endpoints debe agregar el token en **Header Authorization type Bearer Token** 
+* Generar productos: acceder a la api mediante postman o similar para crear productos (sólo por usuario admin)
+* Generar método de pago: acceder a la api mediante postman o similar para crear métodos de pago (sólo por usuario admin)
+* Generar ordenes pendientes: acceder a la api mediante postman o similar para crear ordenes con dirección que se usó para crear usuario, método de pago y productos.
 
-### Generar productos
-* Acceder a la api mediante postman o similar para crear productos
+## Pagar ordenes
+* Loguear en app: acceder a la [Delilah Resto](https://www.gnparra.tk), puede ingresar con usuario y contraseña creados en el instructivo anterior, o bien por medio de otros proveedores detallados en cada botón
+* Pagar ordenes pendientes: si el usuario generó ordenes aparecerán en esta pantalla, donde por cada una hay un botón de Mercado Pago y otro de Paypal.
 
-### Generar método de pago
-* Acceder a la api mediante postman o similar para crear métodos de pago
+## Docker
+* El archivo zip contiene la carpeta con el código fuente y los archivos necesarios para crear el entorno
+* Con visual studio o bash situarse en la carpeta `back` y luego ejecutar
+```
+docker-compose up --build
+```
+* Acceder a rutas locales [API](http://localhost:4567/docs/)
 
-### Generar ordenes pendientes
-* Acceder a la api mediante postman o similar para crear ordenes con dirección que se usó para crear usuario, método de pago y productos
-
-### Ingre Generar ordenes pendientes
-* Acceder a la api mediante postman o similar para crear ordenes con dirección que se usó para crear usuario, método de pago y productos
-
-## Pasos para pagar ordenes
-### Loguear en app
-* Acceder a la [Delilah Resto](https://www.gnparra.tk)
-* Puede ingresar con usuario y contraseña creados en el instructivo anterior
-* O bien puede ingresar por medio de otros proveedores detallados en cada botón debajo del login anterior
-
-### Pagar ordenes pendientes
-* Si el usuario creo ordenes entonces aparecen en esta pantalla luego del login
-* Cada orden tiene un botón de Mercado Pago y Paypal
-* En cualquiera de las formas de se debe ingresar a pagar con cada cuenta

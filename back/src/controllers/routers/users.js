@@ -21,14 +21,14 @@ function createRouter() {
  *      in: body
  *      required: true
  *      type: string
- *      example: { nombre: String, apellido: String, mail: String, telefono: String, userid: String, password: String, direcciones: {direccion: String}}
+ *      example: { userid: String, nombre: String, apellido: String, mail: String, telefono: String, password: String, direcciones: {direccion: String}}
  *    produces:
  *    - "application/json"
  *    responses:
  *      200:
  *        description: Usuario Creado.
  *        type: string
- *        example: { nombre: String, apellido: String, mail: String, direccionenvio: String, telefono: String, userid: String, password: String, direcciones: {direccion: String}}
+ *        example: { userid: String, nombre: String, apellido: String, mail: String, telefono: String, direccionenvio: String, password: String, direcciones: {direccion: String}}
  */
   router.post('/', chkNewUser, async (req, res) => {
     const { CRYPTO_KEY } = process.env;
