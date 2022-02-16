@@ -27,6 +27,10 @@ function createRouter() {
    *    responses:
    *      200:
    *        description: Producto creado
+   *      401:
+   *        description: Invalid credential
+   *      401:
+   *        description: Usuario no es Administrador
    *      409:
    *        description: Ya existe el producto
    */
@@ -95,6 +99,10 @@ function createRouter() {
    *    responses:
    *      200:
    *        description: Producto actualizado
+   *      401:
+   *        description: Invalid credential
+   *      401:
+   *        description: Usuario no es Administrador
    *      404:
    *        description: Producto no encontrado
    *      409:
@@ -179,6 +187,10 @@ function createRouter() {
    *    responses:
    *      200:
    *        description: Producto eliminado
+   *      401:
+   *        description: Invalid credential
+   *      401:
+   *        description: Usuario no es Administrador
    *      404:
    *        description: Producto no encontrado
    */
@@ -232,6 +244,10 @@ function createRouter() {
    *    responses:
    *      200:
    *        description: Peticion exitosa
+   *      401:
+   *        description: Invalid credential
+   *      401:
+   *        description: Usuario no es Administrador
    *
    */
   router.get('/', chkToken, chkAdmin, chkUserActive, cache, async (req, res) => {

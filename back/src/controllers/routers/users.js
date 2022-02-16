@@ -93,6 +93,10 @@ function createRouter() {
  *    responses:
  *      200:
  *        description: Usuario Suspendido.
+ *      401:
+ *        description: Invalid credential
+ *      401:
+ *        description: Usuario no es Administrador
  *      403:
  *        description: Invalid Token
  *      404:
@@ -181,6 +185,8 @@ function createRouter() {
    *    responses:
    *      200:
    *        description: Peticion exitosa
+   *      401:
+   *        description: Invalid credential
    *
    */
   router.get('/addresses', chkToken, chkUserActive, async (req, res) => {

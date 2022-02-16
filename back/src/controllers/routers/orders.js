@@ -29,6 +29,8 @@ function createRouter() {
    *    responses:
    *      200:
    *        description: Pedido creado
+   *      401:
+   *        description: Invalid credential
    *      403:
    *        description: Dirección no encontrada
    */
@@ -115,12 +117,14 @@ function createRouter() {
    *    responses:
    *      200:
    *        description: Pedido actualizado
+   *      401:
+   *        description: Invalid credential
    *      403:
    *        description: Detalle no válido, sólo puede editar o borrar
    *      404:
    *        description: Pedido no encontrado
    *      405:
-   *        description: Usuario no es propietario del numero de pedido
+   *        description: Pedido no pertenece al Usuario
    *      406:
    *        description: El Pedido debe estar Pendiente
    */
@@ -190,11 +194,9 @@ function createRouter() {
    *      200:
    *        description: Peticion exitosa
    *      401:
-   *        description: Pedido no pertenece al Usuario
-   *      403:
-   *        description: Invalid Token
-   *      404:
-   *        description: Pedido no encontrado
+   *        description: Invalid credential
+   *      401:
+   *        description: Usuario no es Administrador
    *
    */
   router.get('/all', chkToken, chkAdmin, chkUserActive, async (req, res) => {
@@ -222,8 +224,8 @@ function createRouter() {
    *    responses:
    *      200:
    *        description: Peticion exitosa
-   *      403:
-   *        description: Invalid Token
+   *      401:
+   *        description: Invalid credential
    *
    */
   router.get('/', chkToken, chkUserActive, async (req, res) => {

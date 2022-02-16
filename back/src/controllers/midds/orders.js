@@ -51,7 +51,7 @@ async function chkUpdateOrder(req, res, next) {
       }
     } else {
       res
-        .status(401)
+        .status(405)
         .json({
           message: 'Pedido no pertenece al Usuario'
         });

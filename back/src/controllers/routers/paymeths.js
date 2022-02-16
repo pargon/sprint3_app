@@ -27,6 +27,10 @@ function createRouter() {
    *    responses:
    *      200:
    *        description: Medio de Pago creado
+   *      401:
+   *        description: Invalid credential
+   *      401:
+   *        description: Usuario no es Administrador
    *      409:
    *        description: Ya existe el Medio de Pago
    */
@@ -87,6 +91,10 @@ function createRouter() {
    *    responses:
    *      200:
    *        description: Medio de Pago actualizado
+   *      401:
+   *        description: Invalid credential
+   *      401:
+   *        description: Usuario no es Administrador
    *      404:
    *        description: Medio de Pago no encontrado
    *      409:
@@ -163,6 +171,10 @@ function createRouter() {
    *    responses:
    *      200:
    *        description: Medio de Pago eliminado
+   *      401:
+   *        description: Invalid credential
+   *      401:
+   *        description: Usuario no es Administrador
    *      404:
    *        description: Medio de Pago no encontrado
    */
@@ -211,6 +223,10 @@ function createRouter() {
    *    responses:
    *      200:
    *        description: Peticion exitosa
+   *      401:
+   *        description: Invalid credential
+   *      401:
+   *        description: Usuario no es Administrador
    *
    */
   router.get('/', chkToken, chkAdmin, chkUserActive, async (req, res) => {
