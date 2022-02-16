@@ -1,66 +1,41 @@
 # Delilah Restó API 4.0.0
 
-Este proyecto consiste en presentar en la nube de **Amazon AWS** una api que permite gestionar ordenes a los usuarios. Además, permite al administrador mantener los maestros. 
-
-
-## Conectar al servidor
-* Ingresar a la url https://aws.amazon.com/ y presionar Sign IN
-* Seleccionar IAM User
-* Ingresar Account Id: `archivo_account_id`
-* Ingresar usuario: `archivo_user`
-* Ingresar password: `archivo_password`
-
-## Iniciar Instancias
-* En el buscador de la barra superior ingresar EC2, seleccionarlo
-* Acceder al menú Auto Scaling Groups en la sección derecha
-* Hacer click sobre el grupo creado con nombre `ASGapp3`
-* Presionar el botón edit en el primer cuadro
-* Ingresar los siguientes valores:
-	* Desired capacity: 2
-	* Minimum capacity: 1
-	* Maximum capacity: 3
-* Presionar botón Update
-
-## Chequear Instancias
-* En el buscador de la barra superior ingresar EC2, seleccionarlo
-* Acceder al menú Instances
-* Verificar que al menos una instancian pase a estado Running
+Este proyecto consiste en presentar en la nube de **Amazon AWS** una api que permite gestionar ordenes a los usuarios y  mantener maestros por parte del administrador. 
+Permite autenticación mediante proveedores tales como Google, Facebook, etc. 
+El pago de las ordenes se pueden efectuar tanto con Mercado Pago como PayPal.
 
 ## Ingresar sitios
-* Url dominio propio: https://www.gonzaloparra.tk o https://gonzaloparra.tk
-* Url servicios api: https://api.gonzaloparra.tk
-* Repositorio Git del proyecto actualizado: https://gitlab.com/pargon1/acamica-sprint-3
+* Url dominio propio: https://www.gnparra.tk o https://gnparra.tk
+* Url servicios api: https://api.gnparra.tk
+* Repositorio Git del proyecto actualizado: https://github.com/pargon/sprint3_app/tree/sprint4
 
-## Probar API 
+## Documentación API 
 * Ingresando a postman o similar
-* Acceder a cada punto según documentación en https://api.gonzaloparra.tk/docs/
+* Acceder a cada punto según documentación en https://api.gnparra.tk/docs/
 
-## Agregar rule para Acceder por SSH desde Mi PC
-* En el buscador de la barra superior ingresar EC2, seleccionarlo
-* Acceder al menú Security Groups
-* Buscar en la lista y hacer click sobre `SGinstanciasApp3`
-* Presionar botón Edit inbound rules
-* Presionar botón Add rule
-* Seleccionar Type SSH
-* Seleccionar Source My IP y luego presionar Save Rules
+## Pasos para crear ordenes
+### Generar usuario
+* Acceder a la api mediante postman o similar para crear usuario
 
-## Acceder por SSH a Instancias
-* En el buscador de la barra superior ingresar EC2, seleccionarlo
-* Acceder al menú Instances
-* Hacer click en una instancia con estado Running
-* Presionar el botón Connect, en la solapa SSH muestra el instructivo para continuar
-* El archivo PEM va adjunto con la entrega
+### Generar productos
+* Acceder a la api mediante postman o similar para crear productos
 
-## CICD
-* Acceder a proyecto en https://gitlab.com/pargon1/acamica-sprint-3/-/pipelines
-* Se actualiza repositorio en S3 
+### Generar método de pago
+* Acceder a la api mediante postman o similar para crear métodos de pago
 
-## Acceder a S3
-* En el buscador de la barra superior ingresar EC2, seleccionarlo
-* Acceder al menú S3
-* Click en el bucket `s3gonzalo`
-* Acceder a la carpeta `app3` donde se verá el archivo que sirve de index para el sitio www.gonzaloparra.tk
+### Generar ordenes pendientes
+* Acceder a la api mediante postman o similar para crear ordenes con dirección que se usó para crear usuario, método de pago y productos
 
+### Ingre Generar ordenes pendientes
+* Acceder a la api mediante postman o similar para crear ordenes con dirección que se usó para crear usuario, método de pago y productos
 
+## Pasos para pagar ordenes
+### Loguear en app
+* Acceder a la [Delilah Resto](https://www.gnparra.tk)
+* Puede ingresar con usuario y contraseña creados en el instructivo anterior
+* O bien puede ingresar por medio de otros proveedores detallados en cada botón debajo del login anterior
 
-
+### Pagar ordenes pendientes
+* Si el usuario creo ordenes entonces aparecen en esta pantalla luego del login
+* Cada orden tiene un botón de Mercado Pago y Paypal
+* En cualquiera de las formas de se debe ingresar a pagar con cada cuenta
