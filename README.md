@@ -13,9 +13,12 @@ El pago de las ordenes se pueden efectuar tanto con Mercado Pago como PayPal.
 * Ingresando a postman o similar
 * Acceder a cada punto según documentación en https://api.gnparra.tk/docs/
 
-## Crear ordenes
+## Loguear en la aplicación
 * Generar usuario: acceder a la api mediante postman o similar para crear usuario
 * Hacer login: acceder a la api mediante postman o similar para loguear usuario y recuperar el token. De ahora en más para el uso del resto de los endpoints debe agregar el token en **Header Authorization type Bearer Token** 
+* O bien, hacer login con IdP y cuando se ingresa a la pantalla de pedidos puede copiar el token de la url (`token=XXX..`) para poder operar desde postman y generar ordenes a nombre del usuario generado para el IdP
+
+## Crear ordenes
 * Generar productos: acceder a la api mediante postman o similar para crear productos (sólo por usuario admin)
 * Generar método de pago: acceder a la api mediante postman o similar para crear métodos de pago (sólo por usuario admin)
 * Generar ordenes pendientes: acceder a la api mediante postman o similar para crear ordenes con dirección que se usó para crear usuario, método de pago y productos.
