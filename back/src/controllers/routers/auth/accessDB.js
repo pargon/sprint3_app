@@ -23,15 +23,16 @@ async function getUserByProvider(strategy_name, provider_user_id, provider_email
       through: { where: { externaluserid: provider_user_id } },
     },
   });
-console.log(JSON.stringify( current));
+  console.log(JSON.stringify(current));
 
-  if (current) {
+  if (current.length > 0) {
     // por cada producto en detalle
-    return current.users[0];
+    return current[0].users[0];
+  } else {
+    return createUserByProvider(strategy_name, provider_user_id, provider_email, user_name, user_lastname);
   }
-
-  return createUserByProvider(strategy_name, provider_user_id, provider_email, user_name, user_lastname);
 }
+
 
 async function createUserByProvider(strategy_name, provider_user_id, provider_email, user_name, user_lastname) {
 
