@@ -23,6 +23,7 @@ async function getUserByProvider(strategy_name, provider_user_id, provider_email
       through: { where: { externaluserid: provider_user_id } },
     },
   });
+console.log(JSON.stringify( current));
 
   if (current) {
     // por cada producto en detalle
