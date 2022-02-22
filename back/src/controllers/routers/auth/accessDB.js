@@ -27,11 +27,11 @@ async function getUserByProvider(strategy_name, provider_user_id, provider_email
 
   if (current) {
     // por cada producto en detalle
-    if (current[0].users.length > 0){
-      return current[0].users[0];      
+    if (current.users.length > 0){
+      return current.users[0];      
     }
   }
-  
+
   return createUserByProvider(strategy_name, provider_user_id, provider_email, user_name, user_lastname);
 }
 
