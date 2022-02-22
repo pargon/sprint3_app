@@ -212,36 +212,18 @@ function createRouter() {
     }
   });
 
-  // router.get('/', chkToken, chkUserActive, async (req, res) => {
-    router.get('/', async (req, res) => {
-      const User = db.getModel('UserModel');
+  router.get('/', chkToken, chkUserActive, async (req, res) => {
+    const User = db.getModel('UserModel');
 
-    // const { userid } = req.user;
+    const { userid } = req.user;
 
-    // const users = await User.findOne({
-    //   where: {
-    //     userid
-    //   },
-    // });
-
-    // get modelos
-    const Provider = db.getModel('ProviderModel');
-    const strategy_name = "google";
-    const provider_user_id = "dato";
-
-    // buscar por providerId y userproviderId
-    const current = await Provider.findAll({
+    const users = await User.findOne({
       where: {
-        providerid: strategy_name,
-      },
-      include: {
-        model: User,
-        through: { where: { externaluserid: provider_user_id } },
+        userid
       },
     });
-    console.log(JSON.stringify(current));
 
-    res.status(200); //.json(users);
+    res.status(200).json(users);
   });
 
   return router;
