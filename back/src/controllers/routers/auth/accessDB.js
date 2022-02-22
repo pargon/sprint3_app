@@ -14,7 +14,7 @@ async function getUserByProvider(strategy_name, provider_user_id, provider_email
   const User = db.getModel('UserModel');
 
   // buscar por providerId y userproviderId
-  const current = await Provider.findOne({
+  const current = await Provider.findAll({
     where: {
       providerid: strategy_name,
     },
