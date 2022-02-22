@@ -47,7 +47,7 @@ async function createUserByProvider(strategy_name, provider_user_id, provider_em
     const userid = `user_${strategy_name}_${provider_user_id}`;
     const currUser = await getUser(userid, user_name, user_lastname, provider_email);
 
-    console.log(chalk.redBright(JSON.stringify(currProvider)));
+    console.log(chalk.redBright(`curr provider: ${JSON.stringify(currProvider)}`));
 
     // agrega usuario con relación al proveedor
     await currProvider.addUser(currUser, {
@@ -60,6 +60,8 @@ async function createUserByProvider(strategy_name, provider_user_id, provider_em
         activo: true
       }
     });
+    console.log(chalk.redBright(`usercreated: ${JSON.stringify(currUser)}`));
+
     return currUser;
 
   } catch (error) {
