@@ -33,13 +33,13 @@ function createToken(userid) {
 async function passport_callback(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname) {
   console.log(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
 
-  let user = { id: 1, name: "Mauricio" };  // TODO: get the user data for the created or connected user
+  let user = null;
 
   if (user_id) {
     console.log(`Connect the ${strategy_name} account to the user ${user_id}`);
     // TODO: create the relation between user and provider for user_id and provider(${strategy_name}_data)
     user = await dbaccess.addRelation(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
-    console.log(chalk.bgGray(JSON.stringify(user)));
+    console.log(chalk.bgGray(`addrelation ${JSON.stringify(user)}`));
 
   } else {
     console.log(`This is a login event. Check in the database if exists some user with this ${strategy_name} account.
@@ -48,7 +48,7 @@ async function passport_callback(strategy_name, provider_user_id, provider_email
     // TODO: If not exists, create the user and create the relation
     //       between user and provider for user_id and provider(${strategy_name}_data)
     user = await dbaccess.getUserByProvider(strategy_name, provider_user_id, provider_email, user_name, user_lastname);
-    console.log(chalk.bgCyan(JSON.stringify(user)));
+    console.log(chalk.bgCyan(`get user: ${JSON.stringify(user)}`));
   }
 
   const userid = user.userid;
