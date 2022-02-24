@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const dbaccess = require('../auth/accessDB');
+const dbaccess = require('../../services/accessDB');
 
 
 function passport_connect(strategy_name, strategy_scope, req, res, next) {

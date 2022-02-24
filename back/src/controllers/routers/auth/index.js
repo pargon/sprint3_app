@@ -8,23 +8,20 @@ const auth0 = require('./auth0');
 
 
 
-router.post('/login', function(req, res) {
-
-  console.log("New request POST to /login");
-  
-  console.log(req.body)
-
-  // work with data...
-
-  let data = {
-    'success': true,
-    'message': `User ${req.body.name} registered correctly`,
-    'data': req.body
-  }
-
-  res.json(data);
-});
-
+/**
+ * @swagger
+ * /v1/users/failed:
+ *  get:
+ *    summary: Permite redireccionar en autenticación cuando hay un error 
+ *    description:
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      200:
+ *        description: Ok
+ */
 router.get('/failed', (req, res) => res.send('You Failed to log in!'))
 
 router.use('', google);

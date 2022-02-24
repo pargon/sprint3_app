@@ -5,7 +5,22 @@ const { passport_connect, passport_callback } = require('./utils');
 const strategy_name = 'auth0';
 const strategy_scope = ['openid email profile'];
 
-router.get('/auth0/auth', passport.authenticate(strategy_name, { session:false, scope: strategy_scope}));
+
+/**
+ * @swagger
+ * /v1/users/auth0/auth:
+ *  get:
+ *    summary: Autentica mediante el proveedor Auth0
+ *    description:
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      200:
+ *        description: Ok
+ */
+router.get('/auth0/auth', passport.authenticate(strategy_name, { session: false, scope: strategy_scope }));
 
 router.get('/auth0/connect', function (req, res, next) {
   /* Connects the current user account with Auth0. */
@@ -15,13 +30,28 @@ router.get('/auth0/connect', function (req, res, next) {
   console.log("New request GET to /auth0/connect");
 
   // We supose that the middleware defines the req.user object
-  req.user = {id: 1,}
+  req.user = { id: 1, }
 
   passport_connect(strategy_name, strategy_scope, req, res, next);
 });
 
-router.get('/auth0/callback', passport.authenticate(strategy_name, {  session:false, failureRedirect: '/failed' }),
-  async function(req, res) {
+
+/**
+ * @swagger
+ * /v1/users/auth0/callback:
+ *  get:
+ *    summary: Permite al proveedor redireccionar en caso de autenticación exitosa
+ *    description:
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      200:
+ *        description: Ok
+ */
+router.get('/auth0/callback', passport.authenticate(strategy_name, { session: false, failureRedirect: '/failed' }),
+  async function (req, res) {
     /*
     Successful authentication.
     Auth0 correctly authenticated the user and defined the following variables for us:
@@ -42,7 +72,7 @@ router.get('/auth0/callback', passport.authenticate(strategy_name, {  session:fa
     const provider_email = auth0_data.email;
     const user_name = auth0_data.name;
     const user_lastname = '';
-    
+
     console.log(auth0_data);
 
     const token = await passport_callback(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);

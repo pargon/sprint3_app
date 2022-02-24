@@ -6,7 +6,21 @@ const { passport_connect, passport_callback } = require('./utils');
 const strategy_name = 'google';
 const strategy_scope = ['profile', 'email'];
 
-router.get('/google/auth', passport.authenticate(strategy_name, { session:false, scope: strategy_scope}));
+/**
+ * @swagger
+ * /v1/users/google/auth:
+ *  get:
+ *    summary: Autentica mediante el proveedor Google
+ *    description:
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      200:
+ *        description: Ok
+ */
+router.get('/google/auth', passport.authenticate(strategy_name, { session: false, scope: strategy_scope }));
 
 router.get('/google/connect', function (req, res, next) {
   /* Connects the current user account with Google. */
@@ -16,14 +30,28 @@ router.get('/google/connect', function (req, res, next) {
   console.log("New request GET to /google/connect");
 
   // We supose that the middleware defines the req.user object
-  req.user = {id: 1,}
+  req.user = { id: 1, }
 
   passport_connect(strategy_name, strategy_scope, req, res, next);
 
 });
 
-router.get('/google/callback', passport.authenticate(strategy_name, {  session:false, failureRedirect: '/failed' }),
-  async function(req, res) {
+/**
+ * @swagger
+ * /v1/users/google/callback:
+ *  get:
+ *    summary: Permite al proveedor redireccionar en caso de autenticación exitosa
+ *    description:
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      200:
+ *        description: Ok
+ */
+router.get('/google/callback', passport.authenticate(strategy_name, { session: false, failureRedirect: '/failed' }),
+  async function (req, res) {
     /*
     Successful authentication.
     Google correctly authenticated the user and defined the following variables for us:
@@ -45,16 +73,16 @@ router.get('/google/callback', passport.authenticate(strategy_name, {  session:f
     const provider_email = google_data.email;
     const user_name = google_data.given_name;
     const user_lastname = google_data.family_name;
-    
+
     console.log(google_data);
 
     const token = await passport_callback(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname);
-    
+
     console.log(`token nuevo: ${token}`)
 
     const url_front = `${process.env.URL_FRONT}/orders.html?token=${token}`;
 
-    res.header( 'x-authorization', `Bearer ${token}` );
+    res.header('x-authorization', `Bearer ${token}`);
     res.redirect(301, url_front);
 
   }

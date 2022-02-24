@@ -1,5 +1,5 @@
 const chalk = require('chalk');
-const db = require('../../');
+const db = require('..');
 
 
 async function addRelation(strategy_name, provider_user_id, provider_email, user_id, user_name, user_lastname) {

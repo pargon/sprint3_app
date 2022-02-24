@@ -13,10 +13,20 @@ let environment = new paypal.core.SandboxEnvironment(process.env.PAYPAL_CLIENT_I
 let client = new paypal.core.PayPalHttpClient(environment);
 
 
-// 2) Endpoints de paypal como tal
-
-//2.1. Crea orden de pago
-//2.2 Devuelve el link de pago
+/**
+ * @swagger
+ * /v1/paypal/pago:
+ *  post:
+ *    summary: Genera preference para el pago mediante Paypal
+ *    description:
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      200:
+ *        description: Ok
+ */
 router.post('/pago', chkToken, chkUserActive, chkOrderPayment, async (req, res) => {
 
   console.log("New request POST to /pago");
@@ -65,10 +75,24 @@ router.post('/pago', chkToken, chkUserActive, chkOrderPayment, async (req, res) 
   });
 });
 
+/**
+ * @swagger
+ * /v1/paypal/success:
+ *  get:
+ *    summary: Permite redireccionar desde proveedor e pago cuando tuvo éxito
+ *    description:
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      200:
+ *        description: Ok
+ */
 router.get('/success', async (req, res) => {
-  
+
   console.log(req.query);
-  const {tokenapp, token} = req.query;
+  const { tokenapp, token } = req.query;
 
   await successPaymentOrder(token);
 

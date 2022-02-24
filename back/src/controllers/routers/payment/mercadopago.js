@@ -11,6 +11,21 @@ mercadopago.configure({
   access_token: process.env.MERCADOPAGO_TOKEN
 });
 
+
+/**
+ * @swagger
+ * /v1/mercadopago/pago:
+ *  post:
+ *    summary: Genera preference para el pago mediante Mercado Pago
+ *    description:
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      200:
+ *        description: Ok
+ */
 router.post('/pago', chkToken, chkUserActive, chkOrderPayment, async (req, res) => {
   console.log("New request POST to /pago");
 
@@ -79,11 +94,25 @@ router.post('/pago', chkToken, chkUserActive, chkOrderPayment, async (req, res) 
     });
 });
 
+/**
+ * @swagger
+ * /v1/mercadopago/success:
+ *  get:
+ *    summary: Permite redireccionar desde proveedor e pago cuando tuvo éxito
+ *    description:
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      200:
+ *        description: Ok
+ */
 router.get('/success', async (req, res) => {
-  
+
   console.log(req.query);
-  const {token} = req.query;
-  const {preference_id} = req.query;
+  const { token } = req.query;
+  const { preference_id } = req.query;
 
   await successPaymentOrder(preference_id);
 

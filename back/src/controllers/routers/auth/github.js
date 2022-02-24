@@ -6,6 +6,21 @@ const { passport_connect, passport_callback } = require('./utils');
 const strategy_name = 'github';
 const strategy_scope = ['user:email', 'read:user'];
 
+
+/**
+ * @swagger
+ * /v1/users/github/auth:
+ *  get:
+ *    summary: Autentica mediante el proveedor Github
+ *    description:
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      200:
+ *        description: Ok
+ */
 router.get('/github/auth', passport.authenticate(strategy_name, { session: false, scope: strategy_scope }));
 
 
@@ -22,6 +37,21 @@ router.get('/github/connect', function (req, res, next) {
   passport_connect(strategy_name, strategy_scope, req, res, next);
 });
 
+
+/**
+ * @swagger
+ * /v1/users/github/callback:
+ *  get:
+ *    summary: Permite al proveedor redireccionar en caso de autenticación exitosa
+ *    description:
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      200:
+ *        description: Ok
+ */
 router.get('/github/callback', passport.authenticate(strategy_name, { session: false, failureRedirect: '/failed' }),
   async function (req, res) {
     /*

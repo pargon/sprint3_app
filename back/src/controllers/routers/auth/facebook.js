@@ -5,7 +5,22 @@ const { passport_connect, passport_callback } = require('./utils');
 const strategy_name = 'facebook';
 const strategy_scope = ['email'];
 
-router.get('/facebook/auth', passport.authenticate(strategy_name, { session:false, scope: strategy_scope}));
+
+/**
+ * @swagger
+ * /v1/users/facebook/auth:
+ *  get:
+ *    summary: Autentica mediante el proveedor Facebook
+ *    description:
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      200:
+ *        description: Ok
+ */
+router.get('/facebook/auth', passport.authenticate(strategy_name, { session: false, scope: strategy_scope }));
 
 router.get('/facebook/connect', function (req, res, next) {
   /* Connects the current user account with Google. */
@@ -15,13 +30,27 @@ router.get('/facebook/connect', function (req, res, next) {
   console.log("New request GET to /facebook/connect");
 
   // We supose that the middleware defines the req.user object
-  req.user = {id: 1,}
+  req.user = { id: 1, }
 
   passport_connect(strategy_name, strategy_scope, req, res, next);
 });
 
-router.get('/facebook/callback', passport.authenticate(strategy_name, {  session:false, failureRedirect: '/failed' }),
-  async function(req, res) {
+/**
+ * @swagger
+ * /v1/users/facebook/callback:
+ *  get:
+ *    summary: Permite al proveedor redireccionar en caso de autenticación exitosa
+ *    description:
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      200:
+ *        description: Ok
+ */
+router.get('/facebook/callback', passport.authenticate(strategy_name, { session: false, failureRedirect: '/failed' }),
+  async function (req, res) {
     /*
     Successful authentication.
     Google correctly authenticated the user and defined the following variables for us:
