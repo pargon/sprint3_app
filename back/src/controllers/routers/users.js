@@ -185,7 +185,10 @@ function createRouter() {
    *        description: Peticion exitosa
    *      401:
    *        description: Invalid credential
-   *
+   *      404:
+   *        description: Usuario no encontrado
+   *      412:
+   *        description: Usuario no está Activo
    */
   router.get('/addresses', chkToken, chkUserActive, async (req, res) => {
     const User = db.getModel('UserModel');
@@ -212,17 +215,46 @@ function createRouter() {
     }
   });
 
+  /**
+ * @swagger
+ * /v1/users:
+ *  get:
+ *    summary: Obtiene datos del usuario
+ *    description:
+ *    consumes:
+ *    - "application/json"
+ *    parameters:
+ *    - name: body
+ *      description: Token
+ *      in: body
+ *      required: true
+ *      type: string
+ *      example: { token: String }
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      200:
+ *        description: Usuario Creado.
+ *        type: string
+ *        example: { userid: String, nombre: String, apellido: String, mail: String, telefono: String, direccionenvio: String, password: String, direcciones: {direccion: String}}
+ *      401:
+ *        description: Invalid credential
+ *      404:
+ *        description: Usuario no encontrado
+ *      412:
+ *        description: Usuario no está Activo
+ */
   router.get('/', chkToken, chkUserActive, async (req, res) => {
     const User = db.getModel('UserModel');
 
-    const { userid } = req.user;
-
+    const { userid } = req.user;    
     const users = await User.findOne({
       where: {
         userid
       },
     });
 
+    console.log(`get user: ${users}`);
     res.status(200).json(users);
   });
 
