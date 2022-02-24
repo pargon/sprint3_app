@@ -12,6 +12,8 @@ const auth0 = require('./auth0');
  * @swagger
  * /v1/users/failed:
  *  get:
+ *    tags: 
+ *    - "Authentication"  
  *    summary: Permite redireccionar en autenticación cuando hay un error 
  *    description:
  *    consumes:

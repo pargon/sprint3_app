@@ -16,6 +16,8 @@ mercadopago.configure({
  * @swagger
  * /v1/mercadopago/pago:
  *  post:
+ *    tags: 
+ *    - "Payment"  
  *    summary: Genera preference para el pago mediante Mercado Pago
  *    description:
  *    consumes:
@@ -98,6 +100,8 @@ router.post('/pago', chkToken, chkUserActive, chkOrderPayment, async (req, res) 
  * @swagger
  * /v1/mercadopago/success:
  *  get:
+ *    tags: 
+ *    - "Payment"  
  *    summary: Permite redireccionar desde proveedor e pago cuando tuvo éxito
  *    description:
  *    consumes:

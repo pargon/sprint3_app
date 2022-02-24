@@ -10,6 +10,8 @@ const strategy_scope = ['openid email profile'];
  * @swagger
  * /v1/users/auth0/auth:
  *  get:
+ *    tags: 
+ *    - "Authentication"  
  *    summary: Autentica mediante el proveedor Auth0
  *    description:
  *    consumes:
@@ -40,6 +42,8 @@ router.get('/auth0/connect', function (req, res, next) {
  * @swagger
  * /v1/users/auth0/callback:
  *  get:
+ *    tags: 
+ *    - "Authentication"  
  *    summary: Permite al proveedor redireccionar en caso de autenticación exitosa
  *    description:
  *    consumes:

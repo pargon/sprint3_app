@@ -31,8 +31,7 @@ async function main() {
   // Swagger
   const controllersFolder1 = path.join(__dirname, './controllers/routers/*.js');
   const controllersFolder2 = path.join(__dirname, './controllers/routers/auth/*.js');
-
-  const controllersFolder = path.join(controllersFolder1, controllersFolder2);
+  const controllersFolder3 = path.join(__dirname, './controllers/routers/payment/*.js');
 
   const swaggerOptions = {
     swaggerDefinition: {
@@ -49,7 +48,7 @@ async function main() {
         },
       }
     },
-    apis: [controllersFolder1, controllersFolder2],
+    apis: [controllersFolder1, controllersFolder2, controllersFolder3],
   };
   const swaggerDocs = swaggerJsDoc(swaggerOptions);
   server.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));

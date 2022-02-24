@@ -11,6 +11,8 @@ function createRouter() {
    * @swagger
    * /v1/paymeths:
    *  post:
+   *    tags: 
+   *    - "Payment method"
    *    summary: Crear medio de pago
    *    description: Permite crear un medio de pago (sólo usuario Admin).
    *    consumes:
@@ -75,6 +77,8 @@ function createRouter() {
    * @swagger
    * /v1/paymeths:
    *  put:
+   *    tags: 
+   *    - "Payment method"
    *    summary: Actualiza pedido
    *    description: Permite editar un medio de pago (sólo usuario Admin).
    *    consumes:
@@ -155,6 +159,8 @@ function createRouter() {
    * @swagger
    * /v1/paymeths:
    *  delete:
+   *    tags: 
+   *    - "Payment method"
    *    summary: Elimina medio de pago
    *    description: Permite eliminar un medio de pago (sólo usuario Admin).
    *    consumes:
@@ -216,6 +222,8 @@ function createRouter() {
    * @swagger
    * /v1/paymeths:
    *  get:
+   *    tags: 
+   *    - "Payment method"
    *    summary: Lista medios de pago
    *    description: Obtener un listado con todos los medios de pago (sólo usuario Admin puede invocar).
    *    produces:

@@ -11,6 +11,8 @@ const strategy_scope = ['user:email', 'read:user'];
  * @swagger
  * /v1/users/github/auth:
  *  get:
+ *    tags: 
+ *    - "Authentication"  
  *    summary: Autentica mediante el proveedor Github
  *    description:
  *    consumes:
@@ -42,6 +44,8 @@ router.get('/github/connect', function (req, res, next) {
  * @swagger
  * /v1/users/github/callback:
  *  get:
+ *    tags: 
+ *    - "Authentication"  
  *    summary: Permite al proveedor redireccionar en caso de autenticación exitosa
  *    description:
  *    consumes:

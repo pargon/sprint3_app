@@ -10,6 +10,8 @@ const strategy_scope = ['profile', 'email'];
  * @swagger
  * /v1/users/google/auth:
  *  get:
+ *    tags: 
+ *    - "Authentication"  
  *    summary: Autentica mediante el proveedor Google
  *    description:
  *    consumes:
@@ -40,6 +42,8 @@ router.get('/google/connect', function (req, res, next) {
  * @swagger
  * /v1/users/google/callback:
  *  get:
+ *    tags: 
+ *    - "Authentication"  
  *    summary: Permite al proveedor redireccionar en caso de autenticación exitosa
  *    description:
  *    consumes:

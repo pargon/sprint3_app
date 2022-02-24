@@ -9,6 +9,8 @@ const strategy_scope = ['r_liteprofile', 'r_emailaddress']
  * @swagger
  * /v1/users/linkedin/auth:
  *  get:
+ *    tags: 
+ *    - "Authentication"  
  *    summary: Autentica mediante el proveedor Linkedin
  *    description:
  *    consumes:
@@ -39,6 +41,8 @@ router.get('/linkedin/connect', function (req, res, next) {
  * @swagger
  * /v1/users/linkedin/callback:
  *  get:
+ *    tags: 
+ *    - "Authentication"  
  *    summary: Permite al proveedor redireccionar en caso de autenticación exitosa
  *    description:
  *    consumes:

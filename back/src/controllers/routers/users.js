@@ -11,6 +11,8 @@ function createRouter() {
  * @swagger
  * /v1/users:
  *  post:
+ *    tags: 
+ *    - "Users"
  *    summary: Crear usuario
  *    description: Permite crear una cuenta de usuario.
  *    consumes:
@@ -77,6 +79,8 @@ function createRouter() {
  * @swagger
  * /v1/users/unable:
  *  post:
+ *    tags: 
+ *    - "Users"
  *    summary: Suspender usuario
  *    description: Permite suspender una cuenta de usuario. Se puede ingresar usuario o mail y se toma el primer ingresado.
  *    consumes:
@@ -146,6 +150,8 @@ function createRouter() {
    * @swagger
    * /v1/users/login:
    *  post:
+   *    tags: 
+   *    - "Users"
    *    summary: Login del usuario
    *    description: Permite iniciar sesión al usuario.
    *    consumes:
@@ -176,6 +182,8 @@ function createRouter() {
    * @swagger
    * /v1/users/addresses:
    *  get:
+   *    tags: 
+   *    - "Users"
    *    summary: Direcciones del usuario
    *    description: Obtener un listado de todas las direcciones del usuario logueado
    *    produces:
@@ -219,6 +227,8 @@ function createRouter() {
  * @swagger
  * /v1/users:
  *  get:
+ *    tags: 
+ *    - "Users"
  *    summary: Obtiene datos del usuario
  *    description:
  *    consumes:
@@ -247,7 +257,7 @@ function createRouter() {
   router.get('/', chkToken, chkUserActive, async (req, res) => {
     const User = db.getModel('UserModel');
 
-    const { userid } = req.user;    
+    const { userid } = req.user;
     const users = await User.findOne({
       where: {
         userid

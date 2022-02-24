@@ -11,6 +11,8 @@ function createRouter() {
    * @swagger
    * /v1/products:
    *  post:
+   *    tags: 
+   *    - "Products"
    *    summary: Crear producto
    *    description: Permite crear un producto (sólo usuario Admin).
    *    consumes:
@@ -83,6 +85,8 @@ function createRouter() {
    * @swagger
    * /v1/products:
    *  put:
+   *    tags: 
+   *    - "Products"
    *    summary: Actualizar producto
    *    description: Permite editar un producto (sólo usuario Admin).
    *    consumes:
@@ -171,6 +175,8 @@ function createRouter() {
    * @swagger
    * /v1/products:
    *  delete:
+   *    tags: 
+   *    - "Products"
    *    summary: Elimina producto
    *    description: Permite eliminar un producto (sólo usuario Admin).
    *    consumes:
@@ -237,6 +243,8 @@ function createRouter() {
    * @swagger
    * /v1/products:
    *  get:
+   *    tags: 
+   *    - "Products"
    *    summary: Lista todos los productos
    *    description: Obtener un listado de todos los productos (sólo usuario Admin puede invocar).
    *    produces:

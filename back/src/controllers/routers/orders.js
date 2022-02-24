@@ -13,6 +13,8 @@ function createRouter() {
    * @swagger
    * /v1/orders:
    *  post:
+   *    tags: 
+   *    - "Orders"
    *    summary: Nuevo Pedido
    *    description: Permite crear un pedido a un usuario.
    *    consumes:
@@ -101,6 +103,8 @@ function createRouter() {
    * @swagger
    * /v1/orders:
    *  put:
+   *    tags: 
+   *    - "Orders"
    *    summary: Actualiza Pedido
    *    description: Permite editar detalle de un pedido a un usuario.
    *    consumes:
@@ -184,6 +188,8 @@ function createRouter() {
    * @swagger
    * /v1/orders/all:
    *  get:
+   *    tags: 
+   *    - "Orders"
    *    summary: Todos los pedidos
    *    description: Obtener un listado con todos los pedidos (sólo usuario Admin puede invocar).
    *    security:
@@ -215,6 +221,8 @@ function createRouter() {
    * @swagger
    * /v1/orders:
    *  get:
+   *    tags: 
+   *    - "Orders"
    *    summary: Todos los pedidos del Usuario
    *    description: Obtener un listado con todos los pedidos del Usuario.
    *    security:

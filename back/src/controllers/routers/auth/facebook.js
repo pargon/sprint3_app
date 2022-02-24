@@ -10,6 +10,8 @@ const strategy_scope = ['email'];
  * @swagger
  * /v1/users/facebook/auth:
  *  get:
+ *    tags: 
+ *    - "Authentication"
  *    summary: Autentica mediante el proveedor Facebook
  *    description:
  *    consumes:
@@ -39,6 +41,8 @@ router.get('/facebook/connect', function (req, res, next) {
  * @swagger
  * /v1/users/facebook/callback:
  *  get:
+ *    tags: 
+ *    - "Authentication"  
  *    summary: Permite al proveedor redireccionar en caso de autenticación exitosa
  *    description:
  *    consumes:
